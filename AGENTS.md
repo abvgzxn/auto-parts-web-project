@@ -182,3 +182,11 @@ We may experiment with:
 - documentation agents
 
 AI tooling should improve development and learning rather than hide how the application works.
+
+## Brand naming
+
+Use "Велкар" when writing the brand name in Cyrillic.
+
+When the brand name must be written in Latin characters, use "Wellcar".
+
+Never use "Velkar".
