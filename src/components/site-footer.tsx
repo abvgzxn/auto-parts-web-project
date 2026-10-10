@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 export default function SiteFooter() {
   return (
     <footer className="bg-brand-navy text-white">
-      <div className="mx-auto max-w-7xl px-6 py-10 md:px-8">
+      <div className="site-container py-10">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
             <Link href="/" className="text-2xl font-bold">

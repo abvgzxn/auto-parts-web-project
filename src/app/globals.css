@@ -37,3 +37,18 @@ body {
   color: var(--foreground);
   font-family: var(--font-arimo), Arial, Helvetica, sans-serif;
 }
+/* Общий контейнер страницы, шапки и футера; не зависит от сканирования Tailwind. */
+.site-container {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (min-width: 48rem) {
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 64rem) {
+    padding-inline: 2rem;
+  }
+}

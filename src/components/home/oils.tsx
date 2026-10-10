@@ -32,7 +32,7 @@ export default function Oils() {
     <section
       id="oils"
       aria-labelledby="oils-title"
-      className="rounded-2xl bg-brand-navy px-6 py-12 text-white md:px-10 md:py-16"
+      className="rounded-2xl bg-brand-navy px-4 py-12 text-white md:px-10 md:py-16"
     >
       <div className="max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-widest text-brand-light-blue">

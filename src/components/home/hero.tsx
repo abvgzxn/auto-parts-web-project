@@ -25,13 +25,13 @@ export default function Hero() {
 
       {/* Содержимое Hero */}
       <div className="relative z-10 flex min-h-[460px] items-center px-6 py-14 md:min-h-[540px] md:px-12 lg:px-16">
-        <div className="max-w-2xl">
+        <div className="min-w-0 max-w-2xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-white/85">
             Магазин автозапчастей в Калязине
           </p>
           <h1
             id="hero-title"
-            className="text-4xl font-bold leading-tight md:text-5xl lg:text-6xl"
+            className="text-[2rem] font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl"
           >
             Автозапчасти и моторные масла
             <span className="mt-2 block text-brand-cyan">
@@ -51,7 +51,7 @@ export default function Hero() {
           href={siteConfig.maxUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex min-h-12 items-center justify-center rounded-lg bg-white px-7 py-3 font-semibold text-brand-navy transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className="inline-flex min-h-12 max-w-full items-center justify-center rounded-lg bg-white px-7 py-3 text-center font-semibold text-brand-navy transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Подобрать по VIN в MAX
         </a>

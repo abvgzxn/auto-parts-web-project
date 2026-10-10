@@ -15,7 +15,7 @@ const focusStyle =
 export default function SiteHeader() {
   return (
     <header className="bg-brand-navy text-white">
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 md:flex-nowrap md:px-6">
+      <div className="site-container relative flex flex-wrap items-center justify-between gap-x-4 py-5 md:flex-nowrap md:gap-4">
         <Link href="/" className={`shrink-0 rounded-lg ${focusStyle}`}>
           <BrandLogo width={125} height={100} />
         </Link>
@@ -37,18 +37,21 @@ export default function SiteHeader() {
 
         <a
           href={siteConfig.phones[0].href}
-          className={`shrink-0 rounded-lg bg-brand-cyan px-4 py-3 font-semibold text-white hover:bg-brand-light-blue ${focusStyle}`}
+          className={`hidden shrink-0 rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray md:inline-flex ${focusStyle}`}
         >
           Позвонить
         </a>
 
-        <details className="w-full min-w-0 rounded-lg border border-brand-light-blue md:hidden">
+        <details className="group w-full min-w-0 md:hidden">
           <summary
-            className={`min-h-12 cursor-pointer rounded-lg px-4 py-3 font-semibold hover:bg-white/10 ${focusStyle}`}
+            className={`absolute right-4 top-11 flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-lg border border-brand-light-blue px-4 py-3 font-semibold hover:bg-white/10 [&::-webkit-details-marker]:hidden ${focusStyle}`}
           >
             Меню
+            <span aria-hidden="true" className="group-open:rotate-180">
+              ▾
+            </span>
           </summary>
-          <nav aria-label="Мобильная навигация" className="border-t border-brand-light-blue p-2">
+          <nav aria-label="Мобильная навигация" className="mt-4 border-t border-brand-light-blue pt-2">
             <ul>
               {navigationLinks.map(({ href, label }) => (
                 <li key={href}>
@@ -61,6 +64,12 @@ export default function SiteHeader() {
                 </li>
               ))}
             </ul>
+            <a
+              href={siteConfig.phones[0].href}
+              className={`mt-2 flex min-h-12 items-center justify-center rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray ${focusStyle}`}
+            >
+              Позвонить
+            </a>
           </nav>
         </details>
       </div>

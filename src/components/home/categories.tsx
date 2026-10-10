@@ -37,7 +37,6 @@ export default function Categories() {
     <section
       id="assortment"
       aria-labelledby="categories-title"
-      className="py-12 md:py-16"
     >
       <h2
         id="categories-title"

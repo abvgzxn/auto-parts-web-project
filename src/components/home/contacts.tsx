@@ -6,7 +6,6 @@ export default function Contacts() {
     <section
       id="contacts"
       aria-labelledby="contacts-title"
-      className="py-12 md:py-16"
     >
       <h2
         id="contacts-title"

@@ -25,7 +25,6 @@ export default function Benefits() {
   return (
     <section
       aria-labelledby="benefits-title"
-      className="py-12 md:py-16"
     >
       <h2
         id="benefits-title"

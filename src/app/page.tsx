@@ -12,7 +12,7 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="site-container flex flex-col gap-12 py-8 md:gap-16">
         <Hero />
         <Benefits />
         <Categories />
