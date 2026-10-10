@@ -1,11 +1,11 @@
 import Link from "next/link";
 import BrandLogo from "@/components/ui/brand-logo";
-import { siteConfig } from "@/lib/site-config";
 
 const navigationLinks = [
   { href: "#assortment", label: "Ассортимент" },
   { href: "#oils", label: "Масла" },
   { href: "#selection", label: "Подбор" },
+  { href: "#about", label: "О магазине" },
   { href: "#contacts", label: "Контакты" },
 ];
 
@@ -14,19 +14,19 @@ const focusStyle =
 
 export default function SiteHeader() {
   return (
-    <header className="bg-brand-navy text-white">
-      <div className="site-container relative flex flex-wrap items-center justify-between gap-x-4 py-5 md:flex-nowrap md:gap-4">
+    <header id="top" className="bg-brand-navy text-white">
+      <div className="site-container relative flex flex-wrap items-center justify-between gap-x-4 py-5 lg:flex-nowrap lg:gap-4">
         <Link href="/" className={`shrink-0 rounded-lg ${focusStyle}`}>
           <BrandLogo width={125} height={100} />
         </Link>
 
-        <nav aria-label="Основная навигация" className="hidden md:block">
-          <ul className="flex items-center gap-4 lg:gap-6">
+        <nav aria-label="Основная навигация" className="hidden lg:block">
+          <ul className="flex items-center gap-6 whitespace-nowrap">
             {navigationLinks.map(({ href, label }) => (
               <li key={href}>
                 <a
                   href={href}
-                  className={`inline-flex min-h-12 items-center rounded-sm hover:text-brand-light-blue ${focusStyle}`}
+                  className={`inline-flex min-h-12 items-center rounded-sm hover:underline ${focusStyle}`}
                 >
                   {label}
                 </a>
@@ -36,13 +36,13 @@ export default function SiteHeader() {
         </nav>
 
         <a
-          href={siteConfig.phones[0].href}
-          className={`hidden shrink-0 rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray md:inline-flex ${focusStyle}`}
+          href="#contacts"
+          className={`hidden shrink-0 rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray lg:inline-flex ${focusStyle}`}
         >
           Позвонить
         </a>
 
-        <details className="group w-full min-w-0 md:hidden">
+        <details className="group w-full min-w-0 lg:hidden">
           <summary
             className={`absolute right-4 top-11 flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-lg border border-brand-light-blue px-4 py-3 font-semibold hover:bg-white/10 [&::-webkit-details-marker]:hidden ${focusStyle}`}
           >
@@ -57,7 +57,7 @@ export default function SiteHeader() {
                 <li key={href}>
                   <a
                     href={href}
-                    className={`flex min-h-12 items-center rounded-lg px-4 py-3 hover:bg-white/10 hover:text-brand-light-blue ${focusStyle}`}
+                    className={`flex min-h-12 items-center rounded-lg px-4 py-3 hover:bg-white/10 hover:underline ${focusStyle}`}
                   >
                     {label}
                   </a>
@@ -65,7 +65,7 @@ export default function SiteHeader() {
               ))}
             </ul>
             <a
-              href={siteConfig.phones[0].href}
+              href="#contacts"
               className={`mt-2 flex min-h-12 items-center justify-center rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray ${focusStyle}`}
             >
               Позвонить

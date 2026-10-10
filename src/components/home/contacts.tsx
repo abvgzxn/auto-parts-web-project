@@ -34,7 +34,7 @@ export default function Contacts() {
             href={siteConfig.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-block font-semibold text-brand-cyan hover:underline"
+            className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand-navy hover:underline"
           >
             Открыть в Яндекс Картах
           </a>
@@ -68,7 +68,7 @@ export default function Contacts() {
               <a
                 key={phone.href}
                 href={phone.href}
-                className="text-lg font-semibold text-brand-navy hover:text-brand-cyan"
+                className="inline-flex min-h-11 items-center text-lg font-semibold text-brand-navy hover:underline"
               >
                 {phone.label}
               </a>
@@ -76,7 +76,7 @@ export default function Contacts() {
 
             <a
               href={`mailto:${siteConfig.email}`}
-              className="text-brand-cyan hover:underline"
+              className="inline-flex min-h-11 items-center text-brand-navy hover:underline"
             >
               {siteConfig.email}
             </a>
@@ -86,7 +86,7 @@ export default function Contacts() {
             href={siteConfig.maxUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-cyan px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-light-blue"
+            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-cyan px-6 py-3 font-semibold text-foreground transition-colors hover:bg-brand-light-blue"
           >
             Написать в MAX
           </a>

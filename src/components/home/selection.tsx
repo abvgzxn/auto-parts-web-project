@@ -8,7 +8,7 @@ export default function Selection() {
       className="rounded-2xl bg-[#F3F7FA] px-4 py-12 md:px-10 md:py-16"
     >
       <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-widest text-brand-cyan">
+        <p className="text-sm font-semibold uppercase tracking-widest text-brand-navy">
           Подбор запчастей
         </p>
 
@@ -40,7 +40,7 @@ export default function Selection() {
           <a
             key={phone.href}
             href={phone.href}
-            className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-lg bg-brand-navy px-6 py-3 font-semibold text-white transition-colors hover:bg-brand-cyan"
+            className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-lg bg-brand-navy px-6 py-3 font-semibold text-white transition-colors hover:bg-[#003653]"
           >
             {phone.label}
           </a>

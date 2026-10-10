@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="site-container py-10">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
-            <Link href="/" className="text-2xl font-bold">
+            <Link href="/" className="inline-flex min-h-11 items-center text-2xl font-bold">
               {siteConfig.name}
             </Link>
 
@@ -49,7 +49,7 @@ export default function SiteFooter() {
                 <a
                   key={phone.href}
                   href={phone.href}
-                  className="hover:text-brand-cyan"
+                  className="inline-flex min-h-11 items-center hover:underline"
                 >
                   {phone.label}
                 </a>
@@ -57,7 +57,7 @@ export default function SiteFooter() {
 
               <a
                 href={`mailto:${siteConfig.email}`}
-                className="hover:text-brand-cyan"
+                className="inline-flex min-h-11 items-center hover:underline"
               >
                 {siteConfig.email}
               </a>
@@ -66,7 +66,7 @@ export default function SiteFooter() {
                 href={siteConfig.maxUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-brand-cyan hover:underline"
+                className="inline-flex min-h-11 items-center font-semibold text-white hover:underline"
               >
                 Написать в MAX
               </a>
@@ -74,9 +74,14 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/20 pt-6 text-sm text-white/60">
-          © {new Date().getFullYear()} Wellcar.
-          Все права защищены.
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/20 pt-6 text-sm text-white/75">
+          <p>
+            © {new Date().getFullYear()} Wellcar.
+            Все права защищены.
+          </p>
+          <a href="#top" className="inline-flex min-h-11 items-center rounded-sm text-white/90 hover:underline">
+            Наверх ↑
+          </a>
         </div>
       </div>
     </footer>

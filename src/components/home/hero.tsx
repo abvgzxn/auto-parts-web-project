@@ -12,8 +12,8 @@ export default function Hero() {
         src="/images/hero/car-hero.png"
         alt=""
         fill
-        priority
-        sizes="(max-width: 768px) 100vw, 90vw"
+        preload
+        sizes="(min-width: 1280px) 1216px, (min-width: 1024px) calc(100vw - 64px), (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
         className="object-cover object-center"
       />
 

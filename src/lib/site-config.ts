@@ -9,11 +9,11 @@ export const siteConfig = {
 
   phones: [
     {
-      label: "8 900 11 555 02",
+      label: "+7 900-115-55-02",
       href: "tel:+79001155502",
     },
     {
-      label: "8 915 731 52 54",
+      label: "+7 915-731-52-54",
       href: "tel:+79157315254",
     },
   ],
