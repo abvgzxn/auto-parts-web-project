@@ -39,7 +39,7 @@ export default function SiteHeader() {
           href="#contacts"
           className={`hidden shrink-0 rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray lg:inline-flex ${focusStyle}`}
         >
-          Позвонить
+          Телефоны магазина
         </a>
 
         <details className="group w-full min-w-0 lg:hidden">
@@ -68,7 +68,7 @@ export default function SiteHeader() {
               href="#contacts"
               className={`mt-2 flex min-h-12 items-center justify-center rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray ${focusStyle}`}
             >
-              Позвонить
+              Телефоны магазина
             </a>
           </nav>
         </details>

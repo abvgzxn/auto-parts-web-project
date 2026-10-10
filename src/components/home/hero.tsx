@@ -9,7 +9,7 @@ export default function Hero() {
     >
       {/* Фоновое изображение */}
       <Image
-        src="/images/hero/car-hero.png"
+        src="/images/hero/car-hero.webp"
         alt=""
         fill
         preload
@@ -17,10 +17,10 @@ export default function Hero() {
         className="object-cover object-center"
       />
 
-      {/* Градиент для читаемости текста */}
+      {/* На мобильных затемняем весь фон; на desktop градиент ослабевает за текстом. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-r from-brand-navy/95 via-brand-navy/75 to-transparent"
+        className="absolute inset-0 bg-brand-navy/98 lg:bg-transparent lg:bg-linear-to-r lg:from-brand-navy/98 lg:from-[80%] lg:to-transparent"
       />
 
       {/* Содержимое Hero */}
@@ -33,7 +33,7 @@ export default function Hero() {
             id="hero-title"
             className="text-[2rem] font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl"
           >
-            Автозапчасти и моторные масла
+            Автозапчасти и моторные масла{" "}
             <span className="mt-2 block text-brand-cyan">
               в наличии и на заказ
             </span>
@@ -60,7 +60,7 @@ export default function Hero() {
     href="#contacts"
     className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white px-7 py-3 font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
   >
-    Позвонить
+    Телефоны магазина
   </a>
 </div>
 

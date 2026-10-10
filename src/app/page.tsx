@@ -45,6 +45,12 @@ export default function Home() {
 
   return (
     <>
+      <a
+        href="#main-content"
+        className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:rounded-lg focus-visible:bg-white focus-visible:px-4 focus-visible:py-3 focus-visible:font-semibold focus-visible:text-brand-navy focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy"
+      >
+        Перейти к содержимому
+      </a>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -52,7 +58,7 @@ export default function Home() {
         }}
       />
       <SiteHeader />
-      <main className="min-h-screen bg-background">
+      <main id="main-content" tabIndex={-1} className="min-h-screen bg-background">
         <div className="site-container flex flex-col gap-12 py-8 md:gap-16">
           <Hero />
           <Benefits />

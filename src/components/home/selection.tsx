@@ -40,7 +40,7 @@ export default function Selection() {
           <a
             key={phone.href}
             href={phone.href}
-            className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-lg bg-brand-navy px-6 py-3 font-semibold text-white transition-colors hover:bg-[#003653]"
+            className="inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-lg bg-brand-navy px-6 py-3 font-semibold text-white transition-colors hover:bg-[#003653] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-navy"
           >
             {phone.label}
           </a>

@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wellcar
 
-## Getting Started
+Одностраничный сайт магазина автозапчастей и моторных масел в Калязине.
+Основной домен: https://well-car.ru.
 
-First, run the development server:
+## Стек
+
+- Next.js 16.4.0, App Router и React 19.3.0.
+- TypeScript, Tailwind CSS v4, ESLint.
+- Arimo через `next/font/google`, изображения через `next/image`.
+
+Основная страница находится в `src/app/page.tsx`, компоненты — в
+`src/components`, контакты магазина — в `src/lib/site-config.ts`.
+Требования к работе и дизайну описаны в `AGENTS.md` и `docs/design.md`.
+
+## Локальный запуск
+
+Требуются Node.js **>=20.9.0** и npm. Предпочтительна поддерживаемая LTS-версия Node.js.
+Установите зависимости по `package-lock.json`:
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Сайт доступен по адресу http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Проверки и production-запуск
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npx tsc --noEmit --incremental false
+npm run build
+npm run start
+```
 
-## Learn More
+`npm run start` запускает готовую production-сборку; сначала нужен `npm run build`.
+Для сборки требуется доступ к Google Fonts: `next/font/google` скачивает Arimo
+и затем отдаёт файлы шрифта с сайта без запросов посетителя к Google.
 
-To learn more about Next.js, take a look at the following resources:
+Для публикации нужен Node.js-сервер или хостинг с поддержкой Next.js и
+оптимизации изображений. Текущая конфигурация не предназначена для загрузки
+одного HTML на статический хостинг: изображения используют `/_next/image`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Перед публикацией
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Выполните lint, проверку TypeScript и production-сборку.
+2. Проверьте production-сайт при ширине 320, 375, 768, 1024 и 1280 px:
+   отсутствие горизонтальной прокрутки, читаемость Hero и переносы кнопок.
+3. Пройдите страницу клавиатурой: skip-link, видимый фокус, мобильное меню
+   и переходы по якорям.
+4. Проверьте оба телефона, email, диалог MAX, карту и актуальность режима работы.
+5. Проверьте HTTPS на well-car.ru и постоянные перенаправления с HTTP,
+   используемых вариантов `www` и вторичного домена велкар.рф.
+   При настройке DNS сохраните почтовые записи.
+6. Проверьте загрузку изображений, включая Hero WebP через `/_next/image`,
+   favicon, `/robots.txt`, `/sitemap.xml`, canonical, социальное превью и JSON-LD.
+7. Проверьте зависимости командой `npm audit` без автоматического исправления.
+   Измерьте производительность production-сайта в Lighthouse; LCP и CLS
+   оценивайте по измерениям, а не только по успешной сборке.
