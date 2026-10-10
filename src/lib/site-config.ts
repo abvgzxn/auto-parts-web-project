@@ -1,10 +1,19 @@
 export const siteConfig = {
   name: "Wellcar",
+  url: "https://well-car.ru/",
   city: "Калязин",
 
   address: {
+    country: "RU",
+    region: "Тверская область",
+    street: "улица Салтыкова-Щедрина, 24А",
     full: "Тверская область, г. Калязин, ул. Салтыкова-Щедрина, д. 24А",
     short: "Калязин, ул. Салтыкова-Щедрина, 24А",
+  },
+
+  coordinates: {
+    latitude: 57.236612,
+    longitude: 37.839808,
   },
 
   phones: [
@@ -30,10 +39,16 @@ export const siteConfig = {
     {
       days: "Пн–Пт",
       hours: "08:00–19:00",
+      schemaDays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:00",
+      closes: "19:00",
     },
     {
       days: "Сб–Вс",
       hours: "09:00–17:00",
+      schemaDays: ["Saturday", "Sunday"],
+      opens: "09:00",
+      closes: "17:00",
     },
   ],
 } as const;
