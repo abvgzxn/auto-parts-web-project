@@ -185,8 +185,11 @@ AI tooling should improve development and learning rather than hide how the appl
 
 ## Brand naming
 
-Use "Велкар" when writing the brand name in Cyrillic.
+The primary public-facing brand name is "Wellcar".
 
-When the brand name must be written in Latin characters, use "Wellcar".
+Use "Wellcar" in website headings, navigation, metadata,
+marketing content, and other customer-facing UI.
+
+"Велкар" is an acceptable Cyrillic alternative where appropriate.
 
 Never use "Velkar".

@@ -29,7 +29,7 @@ The primary CTA is:
 
 **Подобрать запчасть**
 
-Its exact behavior must be defined before implementation.
+The primary CTA opens a verified MAX conversation. The actual link must be confirmed before implementation.
 
 For V1, preference should be given to existing communication channels rather than building a backend form without a real processing workflow.
 
@@ -39,22 +39,33 @@ The V1 website consists primarily of one landing page.
 
 Recommended section order:
 
-1. Header
-2. Hero
-3. Quick benefits
-4. Product categories
-5. Part-selection CTA
-6. About the store
-7. Contacts
-8. Footer
+Header
 
-The About section should also contain the strongest reasons for choosing Велкар instead of creating a repetitive separate "Why Велкар" section.
+Hero
+
+Quick benefits
+
+Product categories
+
+Oils and technical fluids
+
+Part-selection CTA
+
+About the store
+
+Contacts
+
+Footer
+
+The oils and technical fluids section should highlight the store's assortment for cars, motorcycles, ATVs, boat engines and other equipment.
+
+The About section should also contain the strongest reasons for choosing Wellcar instead of creating a repetitive separate "Why Wellcar" section.
 
 ## 4. Header
 
 The header should contain:
 
-- Велкар logo;
+- Wellcar logo;
 - navigation;
 - phone/contact action;
 - primary CTA.
@@ -72,22 +83,23 @@ Navigation should use page anchors in V1.
 
 Primary message:
 
-**Запчасти для иномарок  
-в наличии и на заказ**
+**Автозапчасти и моторные масла в наличии и на заказ**
 
-Supporting copy should briefly explain the store's offering without duplicating the rest of the page.
+Supporting copy:
+
+Подбор запчастей по VIN. Большой ассортимент масел для автомобилей, мотоциклов, квадроциклов и лодочных моторов.
 
 Primary action:
 
-**Подобрать запчасть**
+**Подобрать запчасть** — opens a verified MAX conversation.
 
 Secondary action:
 
-**Позвонить**
+**Позвонить** — provides quick access to the store's phone numbers.
 
-The hero should use a dark automotive visual consistent with the Велкар brand.
+The hero should use a dark automotive visual consistent with the Wellcar brand.
 
-The image supports the content and must not reduce text readability.
+The image must support the content without reducing readability.
 
 ## 6. Quick benefits
 
@@ -106,13 +118,12 @@ Claims about delivery times must only be used if confirmed by the business.
 Initial categories:
 
 - Запчасти
-- Масла и жидкости
 - Автохимия
 - Для ТО
 - Шины и диски
 - Для АКПП и трансмиссии
 - Для мотоциклов и квадроциклов
-- Для прицепов
+- Масла для автомобилей, мотоциклов, квадроциклов и лодочных моторов и прочих тех.жидкостей.
 
 In V1 these are informational cards.
 
@@ -127,7 +138,7 @@ This section should explain that customers do not need to know the exact part nu
 Possible process:
 
 1. Customer provides information about the vehicle and required part.
-2. Велкар checks suitable options.
+2. Wellcar checks suitable options.
 3. Price and delivery time are clarified.
 4. Customer decides whether to order or purchase the part.
 
@@ -140,7 +151,7 @@ Useful information a customer may provide:
 - part number, if known;
 - photo or description of the required part.
 
-The actual communication channel must be confirmed before implementing the CTA.
+The primary CTA opens a verified MAX conversation. Both phone numbers remain available as alternative contact channels.
 
 ## 9. About the store
 
@@ -177,12 +188,13 @@ A simple external map link may initially be preferable for performance.
 
 ### Naming
 
-Use:
+Primary public-facing brand: Wellcar. Cyrillic alternative: Велкар.
 
-- **Велкар** in Cyrillic;
-- **Wellcar** when Latin characters are required.
+Use Wellcar in website headings, navigation, metadata, marketing content, and other customer-facing UI.
 
-Never use **Velkar**.
+Велкар is an acceptable Cyrillic alternative where appropriate.
+
+Never use Velkar.
 
 ### Colors
 
@@ -208,10 +220,13 @@ They should complement rather than replace the brand palette.
 
 Brand fonts:
 
-- Days One — selected headings and brand accents;
-- Arimo — interface and body text.
+Arimo — primary website font for Cyrillic and Latin text, including headings, navigation, buttons and body text.
 
-Days One should be used selectively rather than for all interface text.
+Days One — optional decorative font for Latin text and selected brand accents.
+
+Use Arimo as the default font through next/font/google.
+
+Days One should not be used for Cyrillic text without verified glyph support.
 
 Only necessary font weights should be loaded.
 
@@ -248,7 +263,7 @@ References are used for principles rather than direct copying.
 - ECS Tuning — vehicle and part-selection UX.
 - Autodoc / Exist — Russian auto-parts selection and search logic.
 
-The final interface should remain visually identifiable as Велкар.
+The final interface should remain visually identifiable as Wellcar.
 
 ## 14. Responsive strategy
 
@@ -346,6 +361,7 @@ src/
       hero.tsx
       benefits.tsx
       categories.tsx
+      oils.tsx
       part-selection.tsx
       about-store.tsx
       contacts.tsx
@@ -436,7 +452,7 @@ These features should be introduced when the project reaches the stage where the
 
 ### Business identity
 
-- Brand name: Велкар (Cyrillic), Wellcar (Latin).
+- Primary public-facing brand: Wellcar. Cyrillic alternative: Велкар.
 - Location: Калязин, ул. Салтыкова-Щедрина, 24А.
 - Business type: local auto-parts and automotive supplies store.
 - Primary V1 objective: advertising, customer inquiries, and in-store visits.
@@ -467,7 +483,7 @@ Customers should be able to contact the store to request part selection.
 
 The store offers:
 
-- auto parts for imported vehicles;
+- auto parts for cars of various makes;
 - filters, spark plugs, belts, brake components and suspension parts;
 - engine oils and technical fluids;
 - oils for motorcycles, ATVs, boat engines and other equipment;
