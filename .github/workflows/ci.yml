@@ -51,3 +51,49 @@ jobs:
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 7
+
+  deploy:
+    name: Deploy to Wellcar VPS
+    needs: checks
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    concurrency:
+      group: wellcar-production
+      cancel-in-progress: false
+
+    steps:
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.WELLCAR_SSH_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.WELLCAR_KNOWN_HOSTS }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy verified commit
+        env:
+          DEPLOY_HOST: ${{ secrets.WELLCAR_HOST }}
+          DEPLOY_USER: ${{ secrets.WELLCAR_USER }}
+          DEPLOY_SHA: ${{ github.sha }}
+        run: |
+          ssh -T \
+            -i ~/.ssh/id_ed25519 \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            -o BatchMode=yes \
+            -o ConnectTimeout=15 \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "deploy $DEPLOY_SHA"
+
+      - name: Verify production website
+        run: |
+          curl --fail --silent --show-error \
+            --retry 5 \
+            --retry-delay 3 \
+            --max-time 15 \
+            https://well-car.ru/ > /dev/null
