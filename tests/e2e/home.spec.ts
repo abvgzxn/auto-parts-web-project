@@ -159,3 +159,26 @@ test("скриншоты страницы и Hero", async ({ page }, testInfo) =
     await testInfo.attach(name, { path, contentType: "image/png" });
   }
 });
+
+test("Яндекс Карта загружается только по нажатию", async ({ page }) => {
+  const map = page.locator('iframe[src*="yandex.ru/map-widget"]');
+
+  const showMapButton = page.getByRole("button", {
+    name: "Показать карту",
+  });
+
+  await expect(map).toHaveCount(0);
+
+  await expect(showMapButton).toBeVisible();
+
+  await showMapButton.click();
+
+  await expect(map).toHaveCount(1);
+  await expect(map).toBeVisible();
+
+
+  await expect(map).toHaveAttribute(
+    "title",
+    /Магазин Wellcar:/,
+  );
+});
