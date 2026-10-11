@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BrandLogo from "@/components/ui/brand-logo";
+import MobileNavigation from "@/components/mobile-navigation";
 
 const navigationLinks = [
   { href: "#assortment", label: "Ассортимент" },
@@ -41,37 +42,7 @@ export default function SiteHeader() {
         >
           Телефоны магазина
         </a>
-
-        <details className="group w-full min-w-0 lg:hidden">
-          <summary
-            className={`absolute right-4 top-11 flex min-h-12 cursor-pointer list-none items-center gap-2 rounded-lg border border-brand-light-blue px-4 py-3 font-semibold hover:bg-white/10 [&::-webkit-details-marker]:hidden ${focusStyle}`}
-          >
-            Меню
-            <span aria-hidden="true" className="group-open:rotate-180">
-              ▾
-            </span>
-          </summary>
-          <nav aria-label="Мобильная навигация" className="mt-4 border-t border-brand-light-blue pt-2">
-            <ul>
-              {navigationLinks.map(({ href, label }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    className={`flex min-h-12 items-center rounded-lg px-4 py-3 hover:bg-white/10 hover:underline ${focusStyle}`}
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <a
-              href="#contacts"
-              className={`mt-2 flex min-h-12 items-center justify-center rounded-lg bg-white px-4 py-3 font-semibold text-brand-navy hover:bg-brand-gray ${focusStyle}`}
-            >
-              Телефоны магазина
-            </a>
-          </nav>
-        </details>
+        <MobileNavigation links={navigationLinks} />
       </div>
     </header>
   );

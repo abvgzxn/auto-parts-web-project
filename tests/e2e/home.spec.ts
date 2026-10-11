@@ -33,16 +33,30 @@ test("главная страница и основные секции", async (
 });
 
 test("навигация ведёт к секциям", async ({ page, isMobile }) => {
-  if (isMobile) await page.locator("header summary").click();
   const nav = page.getByRole("navigation", {
     name: isMobile ? "Мобильная навигация" : "Основная навигация",
     exact: true,
   });
-  await expect(nav).toBeVisible();
+
+  const menu = page.locator("header summary");
+
   for (const [label, id] of navigation) {
-    await nav.getByRole("link", { name: label, exact: true }).click();
+    if (isMobile) {
+      await menu.click();
+    }
+
+    await expect(nav).toBeVisible();
+
+    await nav.getByRole("link", {
+      name: label,
+      exact: true,
+    }).click();
+
     await expect(page).toHaveURL(new RegExp(`#${id}$`));
     await expect(page.locator(`#${id}`)).toBeInViewport();
+    if (isMobile) {
+      await expect(nav).toBeHidden();
+    }
   }
 });
 
@@ -55,6 +69,28 @@ test("мобильное меню открывается и закрываетс
   await expect(nav).toBeVisible();
   await expect(page.locator("header details")).toHaveAttribute("open", "");
   await menu.click();
+  await expect(nav).toBeHidden();
+});
+
+test("мобильное меню закрывается после выбора раздела", async ({ page, isMobile }) => {
+  test.skip(!isMobile, "Проверяется в мобильном профиле");
+
+  const menu = page.locator("header summary");
+  const details = page.locator("header details");
+  const nav = page.getByRole("navigation", {
+    name: "Мобильная навигация",
+  });
+
+  await menu.click();
+  await expect(nav).toBeVisible();
+
+  await nav.getByRole("link", {
+    name: "Контакты",
+    exact: true,
+  }).click();
+
+  await expect(page).toHaveURL(/#contacts$/);
+  await expect(details).not.toHaveAttribute("open", "");
   await expect(nav).toBeHidden();
 });
 
