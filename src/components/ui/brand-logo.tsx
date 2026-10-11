@@ -1,5 +1,4 @@
 import Image from "next/image";
-import wellcarLogo from "../../../public/images/logo/wellcar-logo.png";
 
 type BrandLogoProps = {
   width?: number;
@@ -12,7 +11,7 @@ export default function BrandLogo({
 }: BrandLogoProps) {
   return (
     <Image
-      src={wellcarLogo}
+      src="/images/logo/wellcar-logo.png"
       alt="Wellcar — магазин автозапчастей"
       width={width}
       height={height}
