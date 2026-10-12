@@ -141,3 +141,55 @@ test("фильтрация по категории работает вместе
 
   await expect(cards).toHaveCount(4);
 });
+
+test("страница отдельного товара открывается", async ({ page }) => {
+  await page.goto("/catalog/oil-filter");
+
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Масляный фильтр",
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText("DEMO-FILTER-001"),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText("Производитель: Демонстрационный товар", {
+    exact: true,
+    }),
+  ).toBeVisible();
+});
+
+test("несуществующий товар возвращает 404", async ({ page }) => {
+  const response = await page.goto(
+    "/catalog/non-existent-product",
+  );
+
+  expect(response?.status()).toBe(404);
+});
+
+test("из каталога можно открыть товар и вернуться обратно", async ({ page }) => {
+  await page.goto("/catalog");
+
+  await page.getByRole("link", {
+    name: "Подробнее о товаре: Масляный фильтр",
+  }).click();
+
+  await expect(page).toHaveURL(/\/catalog\/oil-filter$/);
+
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: "Масляный фильтр",
+    }),
+  ).toBeVisible();
+
+  await page.getByRole("link", {
+    name: "Вернуться в каталог",
+  }).click();
+
+  await expect(page).toHaveURL(/\/catalog$/);
+});

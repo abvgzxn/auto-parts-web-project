@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import Link from "next/link";
 
 type ProductCardProps = {
   product: Product;
@@ -44,6 +45,13 @@ export default function ProductCard({
             : "Цена по запросу"}
         </p>
       </div>
+      <Link
+        href={`/catalog/${product.slug}`}
+          aria-label={`Подробнее о товаре: ${product.name}`}
+           className="mt-4 inline-flex min-h-11 items-center rounded-lg font-semibold text-brand-navy underline underline-offset-4 transition-colors hover:text-brand-blue focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+      Подробнее о товаре
+      </Link>
     </article>
   );
 }
