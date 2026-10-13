@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import CatalogClient from "@/components/catalog/catalog-client";
-import { products } from "@/data/products";
+import { productRepository } from "@/lib/catalog/repositories";
 
 export const metadata: Metadata = {
   title: "Каталог автозапчастей — демоверсия",
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CatalogPage() {
+export default async function CatalogPage() {
+  const products = await productRepository.findAll();
+
   return (
     <main className="min-h-screen bg-background">
       <div className="site-container py-10 md:py-16">
