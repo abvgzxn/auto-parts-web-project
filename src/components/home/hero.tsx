@@ -1,67 +1,15 @@
-import MaxLink from "@/components/ui/max-link";
-import Image from "next/image";
+import HeroCarousel from "@/components/home/hero-carousel";
 
 export default function Hero() {
   return (
-    <section
-      className="relative isolate overflow-hidden rounded-2xl bg-brand-navy text-white"
-      aria-labelledby="hero-title"
-    >
-      {/* Фоновое изображение */}
-      <Image
-        src="/images/hero/car-hero.webp"
-        alt=""
-        fill
-        preload
-        sizes="(min-width: 1280px) 1216px, (min-width: 1024px) calc(100vw - 64px), (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
-        className="object-cover object-center"
-      />
-
-      {/* На мобильных затемняем весь фон; на desktop градиент ослабевает за текстом. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-brand-navy/98 lg:bg-transparent lg:bg-linear-to-r lg:from-brand-navy/98 lg:from-[80%] lg:to-transparent"
-      />
-
-      {/* Содержимое Hero */}
-      <div className="relative z-10 flex min-h-[460px] items-center px-6 py-14 md:min-h-[540px] md:px-12 lg:px-16">
-        <div className="min-w-0 max-w-2xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-wider text-white/85">
-            Магазин автозапчастей в Калязине
-          </p>
-          <h1
-            id="hero-title"
-            className="text-[2rem] font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl"
-          >
-            Автозапчасти и моторные масла{" "}
-            <span className="mt-2 block text-brand-cyan">
-              в наличии и на заказ
-            </span>
-          </h1>
-
-          <p className="mt-6 max-w-xl text-base leading-7 text-white/90 md:text-lg">
-            Подбор запчастей по VIN. Большой ассортимент
-            масел для автомобилей, мотоциклов, квадроциклов
-            и лодочных моторов.
-          </p>
-
-         
-        <div className="mt-8 flex flex-wrap gap-3">
-          <MaxLink
-            text="Подобрать по VIN в MAX"
-            variant="secondary"
-            className="inline-flex min-h-12 max-w-full items-center justify-center rounded-lg bg-white px-7 py-3 text-center font-semibold text-brand-navy transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          />
-
-  <a
-    href="#contacts"
-    className="inline-flex min-h-12 items-center justify-center rounded-lg border border-white px-7 py-3 font-semibold text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-  >
-    Телефоны магазина
-  </a>
-</div>
-
-        </div>
+    <section aria-labelledby="hero-title" className="hero-frame">
+      <h1 id="hero-title" className="hero-intro">
+        Автозапчасти и моторные масла в наличии и на заказ
+      </h1>
+      <HeroCarousel />
+      <div className="hero-store-links">
+        <span>Wellcar — магазин автозапчастей в Калязине</span>
+        <a href="#contacts">Телефоны магазина</a>
       </div>
     </section>
   );

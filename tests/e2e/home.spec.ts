@@ -96,9 +96,8 @@ test("мобильное меню закрывается после выбора
 });
 
 test("ссылки MAX и оба телефона", async ({ page }) => {
-  // Проверяем публичные ссылки, не открывая мессенджер или приложение звонков.
   const maxLinks = page.locator('a[href^="https://max.ru/"]');
-  await expect(maxLinks).toHaveCount(7);
+  await expect(maxLinks).toHaveCount(9);
   for (const link of await maxLinks.all()) {
     await expect(link).toHaveAttribute("href", siteConfig.maxUrl);
     if (!(await link.isVisible())) continue;
@@ -119,7 +118,6 @@ test("ссылки MAX и оба телефона", async ({ page }) => {
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
 
-    // Возвращаемся на ссылку клавиатурой, чтобы проверить именно focus-visible.
     await link.focus();
     await page.keyboard.press("Tab");
     await page.keyboard.press("Shift+Tab");
@@ -251,7 +249,6 @@ test("клавиатура: действия шапки и нативное мо
 });
 
 test("скриншоты страницы и Hero", async ({ page }, testInfo) => {
-  // Прокрутка загружает lazy images; networkidle не нужен из-за внешней карты и HMR.
   for (const image of await page.locator("main img").all()) {
     await image.scrollIntoViewIfNeeded();
     await expect.poll(() => image.evaluate((element) => {
