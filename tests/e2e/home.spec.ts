@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { siteConfig } from "../../src/lib/site-config";
 
 const navigation = [
   ["Ассортимент", "assortment"],
@@ -98,14 +99,57 @@ test("ссылки MAX и оба телефона", async ({ page }) => {
   // Проверяем публичные ссылки, не открывая мессенджер или приложение звонков.
   const maxLinks = page.locator('a[href^="https://max.ru/"]');
   await expect(maxLinks).toHaveCount(5);
-  for (const link of await maxLinks.all()) {
+  const names = [
+    "Подобрать по VIN в MAX",
+    "Подобрать масло в MAX",
+    "Написать в MAX",
+    "Написать в MAX",
+    "Написать в MAX",
+  ];
+  for (const [index, link] of (await maxLinks.all()).entries()) {
     await expect(link).toBeVisible();
-    await expect(link).toHaveAttribute(
-      "href",
-      "https://max.ru/u/f9LHodD0cOLmcWNX5wXIbjxDoKYYStL6WgeNilZp7bWKjuCzsPDkU_Y9qFM",
-    );
+    await expect(link).toHaveAttribute("href", siteConfig.maxUrl);
+    await expect(link).toHaveAccessibleName(names[index]);
     await expect(link).toHaveAttribute("target", "_blank");
-    await expect(link).toHaveAttribute("rel", /noopener/);
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    const icon = link.locator('img[src="/images/logo/max.svg"]');
+    await expect(icon).toBeVisible();
+    await expect(icon).toHaveAttribute("alt", "");
+    await expect(icon).toHaveAttribute("aria-hidden", "true");
+    await icon.scrollIntoViewIfNeeded();
+    await expect.poll(() => icon.evaluate((element) => {
+      const image = element as HTMLImageElement;
+      return image.complete && image.naturalWidth > 0;
+    })).toBe(true);
+    const bounds = await link.boundingBox();
+    expect(bounds).not.toBeNull();
+    expect(bounds!.x).toBeGreaterThanOrEqual(0);
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+
+    // Возвращаемся на ссылку клавиатурой, чтобы проверить именно focus-visible.
+    await link.focus();
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Shift+Tab");
+    await expect(link).toBeFocused();
+    expect(await link.evaluate((element) => element.matches(":focus-visible"))).toBe(true);
+    const outline = await link.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { width: parseFloat(style.outlineWidth), style: style.outlineStyle };
+    });
+    expect(outline.width).toBeGreaterThanOrEqual(2);
+    expect(outline.style).toBe("solid");
+  }
+  for (const container of ["#contacts", "footer"]) {
+    await expect(page.locator(`${container} a[href="mailto:${siteConfig.email}"]`)).toBeVisible();
+    for (const phone of siteConfig.phones) {
+      await expect(page.locator(`${container} a[href="${phone.href}"]`)).toBeVisible();
+    }
+  }
+  const mapLinks = page.getByRole("link", { name: "Открыть в Яндекс Картах" });
+  await expect(mapLinks).toHaveCount(2);
+  for (const link of await mapLinks.all()) {
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("href", siteConfig.mapsUrl);
   }
   for (const phone of ["tel:+79001155502", "tel:+79157315254"]) {
     await expect(page.locator(`#contacts a[href="${phone}"]`)).toBeVisible();

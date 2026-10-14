@@ -1,5 +1,5 @@
+import MaxLink from "@/components/ui/max-link";
 import Image from "next/image";
-import { siteConfig } from "@/lib/site-config";
 import OilCategoryCard from "./oil-category-card";
 
 const oilCategories = [
@@ -55,14 +55,10 @@ export default function Oils() {
             масло с учётом требований производителя техники.
           </p>
 
-          <a
-            href={siteConfig.maxUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <MaxLink
+            text="Подобрать масло в MAX"
             className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-cyan px-6 py-3 text-center font-semibold text-foreground hover:bg-brand-light-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto"
-          >
-            Подобрать масло в MAX
-          </a>
+          />
         </div>
 
         <Image

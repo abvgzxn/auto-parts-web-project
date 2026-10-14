@@ -1,3 +1,4 @@
+import MaxLink from "@/components/ui/max-link";
 import { siteConfig } from "@/lib/site-config";
 
 export default function Selection() {
@@ -28,14 +29,10 @@ export default function Selection() {
       </div>
 
       <div className="mt-8 flex flex-wrap gap-4">
-        <a
-         href={siteConfig.maxUrl}
-         target="_blank"
-         rel="noopener noreferrer"
-         className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-navy px-6 py-3 font-semibold text-white transition-colors hover:bg-[#003653] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
-          >
-          Написать в MAX
-          </a>
+        <MaxLink
+          text="Написать в MAX"
+          className="inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-navy px-6 py-3 font-semibold text-white transition-colors hover:bg-[#003653] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-navy"
+        />
         {siteConfig.phones.map((phone) => (
           <a
             key={phone.href}

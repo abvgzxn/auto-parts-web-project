@@ -1,3 +1,4 @@
+import MaxLink from "@/components/ui/max-link";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 
@@ -62,14 +63,11 @@ export default function SiteFooter() {
                 {siteConfig.email}
               </a>
 
-              <a
-                href={siteConfig.maxUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+              <MaxLink
+                text="Написать в MAX"
+                variant="compact"
                 className="inline-flex min-h-11 items-center font-semibold text-white hover:underline"
-              >
-                Написать в MAX
-              </a>
+              />
             </div>
           </div>
         </div>

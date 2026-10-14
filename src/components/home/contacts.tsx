@@ -1,3 +1,4 @@
+import MaxLink from "@/components/ui/max-link";
 import { siteConfig } from "@/lib/site-config";
 import StoreMap from "@/components/store-map";
 
@@ -82,14 +83,10 @@ export default function Contacts() {
             </a>
           </div>
 
-          <a
-            href={siteConfig.maxUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <MaxLink
+            text="Написать в MAX"
             className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-cyan px-6 py-3 font-semibold text-foreground transition-colors hover:bg-brand-light-blue"
-          >
-            Написать в MAX
-          </a>
+          />
         </div>
       </div>
 

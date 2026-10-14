@@ -1,5 +1,5 @@
+import MaxLink from "@/components/ui/max-link";
 import Image from "next/image";
-import { siteConfig } from "@/lib/site-config";
 
 export default function Hero() {
   return (
@@ -47,14 +47,11 @@ export default function Hero() {
 
          
         <div className="mt-8 flex flex-wrap gap-3">
-          <a
-          href={siteConfig.maxUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-12 max-w-full items-center justify-center rounded-lg bg-white px-7 py-3 text-center font-semibold text-brand-navy transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-        >
-          Подобрать по VIN в MAX
-        </a>
+          <MaxLink
+            text="Подобрать по VIN в MAX"
+            variant="secondary"
+            className="inline-flex min-h-12 max-w-full items-center justify-center rounded-lg bg-white px-7 py-3 text-center font-semibold text-brand-navy transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          />
 
   <a
     href="#contacts"
