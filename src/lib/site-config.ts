@@ -27,7 +27,7 @@ export const siteConfig = {
     },
   ],
 
-  email: "dir@well-car.ru",
+  email: "carglass@bk.ru",
 
   maxUrl:
     "https://max.ru/u/f9LHodD0cOLmcWNX5wXIbjxDoKYYStL6WgeNilZp7bWKjuCzsPDkU_Y9qFM",
