@@ -1,23 +1,15 @@
 const benefits = [
   {
-    title: "Подбор по VIN",
-    description:
-      "Поможем подобрать совместимые запчасти по VIN автомобиля.",
+    title: "Для обслуживания автомобиля",
+    description: "Фильтры, свечи, ремни, тормозные колодки и детали подвески для распространённых иномарок.",
   },
   {
-    title: "В наличии и на заказ",
-    description:
-      "Запчасти в наличии и под заказ. Наличие и сроки поставки уточняйте в магазине.",
+    title: "Моторные масла в наличии",
+    description: "Большой ассортимент моторных масел, масла для ГУР, КП и АКПП.",
   },
   {
-    title: "Большой выбор масел",
-    description:
-      "Моторные масла для автомобилей, мотоциклов, квадроциклов и лодочных моторов.",
-  },
-  {
-    title: "Быстрая связь",
-    description:
-      "Консультация и подбор запчастей по телефону или через MAX.",
+    title: "Для другой техники",
+    description: "Масла и расходники для лодочных моторов, мототехники, зимней и садовой техники.",
   },
 ];
 
@@ -30,14 +22,14 @@ export default function Benefits() {
         id="benefits-title"
         className="text-3xl font-bold text-brand-navy"
       >
-        Почему выбирают Wellcar
+        Хорошие запчасти для хорошего авто
       </h2>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-5 md:grid-cols-3">
         {benefits.map((benefit) => (
           <article
             key={benefit.title}
-            className="rounded-xl border border-border bg-white p-6"
+            className="border-t-2 border-brand-cyan py-6 pr-4"
           >
             <h3 className="text-xl font-semibold text-brand-navy">
               {benefit.title}

@@ -182,3 +182,25 @@ body {
   .hero-visual { min-height: 530px; }
   .hero-symbol { width: 300px; height: 300px; }
 }
+
+/* Original car-and-star repeat from the customer guideline, page 5.
+   Decorative borders keep the pattern outside all text and controls. */
+.assortment-brand-border::before,
+.oils-brand-border::after {
+  content: "";
+  display: block;
+  height: 70px;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 200px 70px;
+}
+.assortment-brand-border::before {
+  margin-bottom: 2rem;
+  background-color: white;
+  background-image: url("/images/brand/pattern-light.webp");
+}
+.oils-brand-border::after {
+  margin-top: 2rem;
+  background-color: var(--brand-navy);
+  background-image: url("/images/brand/pattern-navy.webp");
+}

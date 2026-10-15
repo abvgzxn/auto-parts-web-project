@@ -21,10 +21,10 @@ test("главная страница и основные секции", async (
     "Автозапчасти и моторные масла в наличии и на заказ",
   );
   for (const [id, title] of [
-    ["benefits-title", "Почему выбирают Wellcar"],
+    ["benefits-title", "Хорошие запчасти для хорошего авто"],
     ["categories-title", "Ассортимент Wellcar"],
-    ["oils-title", "Большой выбор моторных масел"],
-    ["selection-title", "Не знаете артикул? Подберём по VIN"],
+    ["oils-title", "Большой ассортимент моторных масел в наличии"],
+    ["selection-title", "Уточним наличие, совместимость и заказ деталей"],
     ["about-title", "Магазин автозапчастей Wellcar в Калязине"],
     ["contacts-title", "Контакты Wellcar"],
   ]) {
@@ -292,4 +292,29 @@ test("Яндекс Карта загружается только по нажа�
     "title",
     /Магазин Wellcar:/,
   );
+});
+
+test("ассортимент и консультация доступны на всех контрольных ширинах", async ({ page }) => {
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const assortment = page.locator("#assortment");
+    for (const title of [
+      "Запчасти для иномарок", "Автомасла", "Автохимия",
+      "Для мототехники и лодочных моторов", "Для садовой техники",
+      "Для прицепов", "Инструмент и аксессуары", "Детали, шины и диски под заказ",
+    ]) {
+      const card = assortment.getByRole("article").filter({ has: page.getByRole("heading", { name: title, exact: true }) });
+      await expect(card).toBeVisible();
+      const box = await card.boundingBox();
+      expect(box!.x).toBeGreaterThanOrEqual(0);
+      expect(box!.x + box!.width).toBeLessThanOrEqual(width);
+    }
+    await expect(assortment).toContainText("Возможность и срок поставки зависят от позиции");
+    await expect(page.locator("#selection")).toContainText("При необходимости продавец");
+    await expect(page.locator("#selection").getByRole("link", { name: "Уточнить наличие в MAX" })).toHaveAttribute("href", siteConfig.maxUrl);
+    expect(await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+  }
+  await page.locator("#assortment").getByRole("link", { name: "Связаться с магазином" }).click();
+  await expect(page).toHaveURL(/#selection$/);
+  await expect(page.locator("#selection")).toBeInViewport();
 });

@@ -34,11 +34,11 @@ export default function Oils() {
     <section
       id="oils"
       aria-labelledby="oils-title"
-      className="rounded-2xl bg-brand-navy px-4 py-12 text-white md:px-10 md:py-16"
+      className="oils-brand-border rounded-2xl bg-brand-navy px-4 py-12 text-white md:px-10 md:py-16"
     >
       <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
         <div className="min-w-0 lg:col-start-2 lg:row-start-1">
-          <p className="text-sm font-semibold uppercase tracking-widest text-white/85">
+          <p className="text-sm font-semibold text-white/85">
             Ассортимент Wellcar
           </p>
 
@@ -46,17 +46,18 @@ export default function Oils() {
             id="oils-title"
             className="mt-3 text-3xl font-bold md:text-4xl"
           >
-            Большой выбор моторных масел
+            Большой ассортимент моторных масел в наличии
           </h2>
 
           <p className="mt-5 max-w-xl text-lg leading-8 text-white/80">
-            Масла для автомобилей, мотоциклов, квадроциклов
-            и лодочных моторов. Поможем подобрать подходящее
-            масло с учётом требований производителя техники.
+            Масла для двигателя, ГУР, КП и АКПП.
+            Для автомобилей, мотоциклов, квадроциклов, лодочных моторов,
+            зимней и садовой техники. Наличие нужного масла и его
+            совместимость с вашей техникой уточняйте у продавца.
           </p>
 
           <MaxLink
-            text="Подобрать масло в MAX"
+            text="Уточнить наличие в MAX"
             className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-brand-cyan px-6 py-3 text-center font-semibold text-foreground hover:bg-brand-light-blue focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white sm:w-auto"
           />
         </div>
