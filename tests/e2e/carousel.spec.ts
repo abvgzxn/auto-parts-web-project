@@ -44,8 +44,7 @@ test("автопрокрутка останавливается и возобн�
     name: "Сезонные предложения",
   });
 
-  // Interact before advancing the fake clock: this waits for hydration and
-  // starts a fresh six-second interval instead of racing the first effect.
+
   await carousel.getByRole("button", { name: /Пауза/ }).click();
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
 
@@ -83,6 +82,10 @@ test.describe("Пользователи с reduced motion", () => {
     const carousel = page.getByRole("region", {
       name: "Сезонные предложения",
     });
+
+    const pauseButton = carousel.locator(".hero-pause");
+
+    await expect(pauseButton).toBeHidden();
 
     const title = carousel.getByRole("heading", {
       level: 2,
@@ -138,8 +141,6 @@ test("карусель реагирует на изменение reduced motion
     name: "Сезонные предложения",
   });
 
-  // Interact before advancing the fake clock: this waits for hydration and
-  // starts a fresh six-second interval instead of racing the first effect.
   await carousel.getByRole("button", { name: /Пауза/ }).click();
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
 
@@ -158,6 +159,10 @@ test("карусель реагирует на изменение reduced motion
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator("html")).toHaveAttribute("data-motion-applied", "reduce");
 
+  await expect(
+  carousel.locator(".hero-pause")
+  ).toBeHidden();
+
   await page.clock.runFor(18000);
   await expect(title).toHaveText("Незамерзающая жидкость");
 
@@ -168,6 +173,10 @@ test("карусель реагирует на изменение reduced motion
   });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator("html")).toHaveAttribute("data-motion-applied", "no-preference");
+
+  await expect(
+  carousel.getByRole("button", { name: "Пауза" })
+).toBeVisible();
 
   await page.clock.runFor(6000);
   await expect(title).toHaveText("Автомобильные аккумуляторы");
@@ -186,7 +195,7 @@ test("Hero: размеры, клавиатура и стабильная выс�
       await page.keyboard.press("Enter");
       await expect(indicator).toHaveAttribute("aria-pressed", "true");
       await expect(carousel.getByRole("heading", { level: 2 })).toHaveCount(1);
-      await expect(carousel.getByRole("button", { name: /Продолжить/ })).toBeVisible();
+      await expect(carousel.locator(".hero-pause")).toBeHidden();
       const box = await carousel.boundingBox();
       height ??= box!.height;
       expect(box!.height).toBe(height);
@@ -215,8 +224,6 @@ test("ручное управление ставит автопрокрутку 
   await page.clock.install();
   await page.goto("/");
   const carousel = page.getByRole("region", { name: "Сезонные предложения" });
-  // Interact before advancing the fake clock: this waits for hydration and
-  // starts a fresh six-second interval instead of racing the first effect.
   await carousel.getByRole("button", { name: /Пауза/ }).click();
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
 
@@ -225,4 +232,51 @@ test("ручное управление ставит автопрокрутку 
   await page.clock.runFor(12100);
   await expect(carousel.getByRole("heading")).toHaveText("Незамерзающая жидкость");
   await expect(carousel.getByRole("button", { name: /Продолжить/ })).toHaveAttribute("aria-pressed", "true");
+});
+
+test("автопрокрутка останавливается при фокусе на кнопке управления", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const counter = page.locator(".hero-arrows span");
+  const nextButton = page.getByRole("button", {
+    name: "Следующий слайд",
+  });
+
+  await expect(counter).toHaveText("1 / 3");
+
+  await nextButton.focus();
+
+  await page.waitForTimeout(6500);
+
+  await expect(counter).toHaveText("1 / 3");
+});
+
+test("кнопка паузы корректно останавливает и возобновляет автопрокрутку", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  const counter = page.locator(".hero-arrows span");
+
+  await expect(counter).toHaveText("1 / 3");
+
+  await page.getByRole("button", { name: "Пауза" }).click();
+
+  await expect(
+    page.getByRole("button", { name: "Продолжить" })
+  ).toBeVisible();
+
+  await page.waitForTimeout(6500);
+  await expect(counter).toHaveText("1 / 3");
+
+  await page.getByRole("button", { name: "Продолжить" }).click();
+
+  await expect(
+    page.getByRole("button", { name: "Пауза" })
+  ).toBeVisible();
+
+  await page.waitForTimeout(6500);
+  await expect(counter).toHaveText("2 / 3");
 });

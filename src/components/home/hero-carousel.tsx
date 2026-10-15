@@ -8,8 +8,9 @@ import { heroSlides } from "@/lib/hero-slides";
 export default function HeroCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isFocusPaused, setIsFocusPaused] = useState(false);
+  const isAutoplayPaused = isPaused || isFocusPaused;
 
-  // Manual navigation pauses the timer so it cannot replace the chosen slide.
   const nextSlide = () => {
     setIsPaused(true);
     setActiveIndex((currentIndex) => (currentIndex + 1) % heroSlides.length);
@@ -27,6 +28,15 @@ export default function HeroCarousel() {
     setActiveIndex(index);
   };
 
+  const togglePause = () => {
+    if (isPaused) {
+    setIsPaused(false);
+    setIsFocusPaused(false);
+    } else {
+    setIsPaused(true);
+    }
+  };
+
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let intervalId: number | undefined;
@@ -34,12 +44,14 @@ export default function HeroCarousel() {
     const syncAutoplay = () => {
       window.clearInterval(intervalId);
       intervalId = undefined;
-      if (isPaused || mediaQuery.matches || heroSlides.length <= 1) return;
+     if (isAutoplayPaused || mediaQuery.matches || heroSlides.length <= 1) {
+     return;
+      };
 
       intervalId = window.setInterval(() => {
         setActiveIndex((currentIndex) => (currentIndex + 1) % heroSlides.length);
       }, 6000);
-    };
+    }
 
     mediaQuery.addEventListener("change", syncAutoplay);
     syncAutoplay();
@@ -47,11 +59,11 @@ export default function HeroCarousel() {
       mediaQuery.removeEventListener("change", syncAutoplay);
       window.clearInterval(intervalId);
     };
-  }, [isPaused]);
+  }, [isAutoplayPaused]);
 
   return (
-    <section aria-label="Сезонные предложения" aria-roledescription="карусель" className="hero-carousel">
-      <div className="hero-slides" onFocusCapture={() => setIsPaused(true)} aria-live={isPaused ? "polite" : "off"} aria-atomic="true">
+    <section aria-label="Сезонные предложения" aria-roledescription="карусель" className="hero-carousel" onFocusCapture={() => setIsFocusPaused(true)}>
+      <div className="hero-slides" aria-live={isAutoplayPaused ? "polite" : "off"} aria-atomic="true">
         {heroSlides.map((slide, index) => (
           <div key={slide.id} className="hero-slide" data-active={index === activeIndex} inert={index !== activeIndex} aria-hidden={index !== activeIndex}>
             <div className="hero-copy">
@@ -98,7 +110,7 @@ export default function HeroCarousel() {
             <button key={slide.id} type="button" onClick={() => goToSlide(index)} aria-label={`Показать слайд ${index + 1}: ${slide.title}`} aria-pressed={activeIndex === index}><span /></button>
           ))}
         </div>
-        <button type="button" className="hero-pause" onClick={() => setIsPaused((current) => !current)} aria-pressed={isPaused}>
+        <button type="button" className="hero-pause" onClick={togglePause} aria-pressed={isPaused}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
             {isPaused ? <path d="m8 5 11 7-11 7V5Z" /> : <path d="M8 5v14M16 5v14" />}
           </svg>

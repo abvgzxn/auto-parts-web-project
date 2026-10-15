@@ -125,8 +125,6 @@ body {
   .header-max-mobile, .header-mobile-menu { display: none; }
 }
 
-/* Hero: all slides share a grid cell, so the longest copy reserves space.
-   visibility + inert keep inactive slides out of focus and accessibility trees. */
 .hero-frame { overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
 .hero-intro { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); color: var(--brand-navy); font-size: 0.875rem; font-weight: 600; line-height: 1.5; }
 .hero-carousel { overflow: hidden; background: var(--surface); color: var(--brand-navy); }
@@ -183,8 +181,6 @@ body {
   .hero-symbol { width: 300px; height: 300px; }
 }
 
-/* Original car-and-star repeat from the customer guideline, page 5.
-   Decorative borders keep the pattern outside all text and controls. */
 .assortment-brand-border::before,
 .oils-brand-border::after {
   content: "";
@@ -203,4 +199,10 @@ body {
   margin-top: 2rem;
   background-color: var(--brand-navy);
   background-image: url("/images/brand/pattern-navy.webp");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel .hero-pause {
+    display: none;
+  }
 }
