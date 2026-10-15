@@ -27,7 +27,7 @@ export default function AboutStore() {
 
         <p className="mt-5 text-lg leading-8 text-muted">
           Автозапчасти и моторные масла в наличии и на заказ.
-          Помогаем подобрать запчасти по VIN автомобиля.
+          Хорошие запчасти для хорошего авто.
         </p>
 
         <p className="mt-4 leading-7 text-muted">

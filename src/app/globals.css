@@ -62,3 +62,161 @@ body {
     outline-offset: 4px;
   }
 }
+
+/* Header: компактная панель до ширины, на которой помещается вся навигация. */
+.wellcar-header { background: var(--brand-navy); color: white; }
+.header-info { display: none; background: var(--surface); color: var(--brand-navy); border-bottom: 1px solid var(--border); }
+.header-info-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 42px; font-size: 0.8125rem; }
+.header-info a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; }
+.header-hours { display: flex; gap: 1.5rem; }
+.header-main { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding-block: 0.5rem; }
+.header-logo { flex-shrink: 0; border-radius: 4px; }
+.header-logo img { width: 80px; height: auto; }
+.header-actions { margin-left: auto; display: flex; align-items: center; gap: 0.375rem; }
+.header-phone, .header-menu-toggle { display: flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; border-radius: 4px; }
+.header-phone span { display: none; }
+.header-max { min-height: 44px; padding: 0.625rem; border-radius: 4px; background: white; color: var(--brand-navy); font-size: 0.8125rem; font-weight: 700; }
+.header-max:hover { background: var(--brand-gray); }
+.header-max-desktop, .header-desktop-nav { display: none; }
+.header-phone:hover, .header-menu-toggle:hover { background: rgb(255 255 255 / 10%); }
+.header-mobile-menu { width: 44px; }
+.header-menu-toggle { cursor: pointer; list-style: none; }
+.header-menu-toggle::-webkit-details-marker { display: none; }
+/* Открытая панель занимает следующую строку flex-контейнера, без наложения на Hero. */
+.header-mobile-menu[open] { width: 100%; }
+.header-mobile-menu[open] .header-menu-toggle { position: absolute; right: 1rem; top: 18px; }
+.header-menu-panel { margin-top: 0.5rem; border-top: 1px solid rgb(255 255 255 / 25%); padding-top: 0.75rem; }
+.header-main { position: relative; }
+.header-main:has(.header-mobile-menu[open]) .header-actions { margin-right: 52px; }
+.header-menu-panel ul, .header-desktop-nav ul { list-style: none; padding: 0; margin: 0; }
+.header-menu-panel nav a { display: flex; align-items: center; min-height: 48px; padding-inline: 0.75rem; border-radius: 4px; font-weight: 600; }
+.header-menu-panel nav a:hover { background: rgb(255 255 255 / 10%); }
+.header-menu-contacts { margin-top: 0.75rem; padding: 1.25rem 0.75rem 0.75rem; border-top: 1px solid rgb(255 255 255 / 25%); font-size: 0.875rem; line-height: 1.6; }
+.header-menu-contacts > p { max-width: 36rem; }
+.header-menu-hours { margin-top: 1rem; color: var(--brand-gray); }
+.header-menu-hours span { margin-left: 0.75rem; }
+.header-menu-phones { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; margin-top: 0.75rem; }
+.header-menu-phones a { display: inline-flex; align-items: center; min-height: 44px; font-size: 1rem; font-weight: 700; }
+.header-map-link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; }
+@media (min-width: 48rem) {
+  .header-logo img { width: 100px; }
+  .header-main { gap: 1rem; padding-block: 0.75rem; }
+  .header-actions { gap: 1rem; }
+  .header-phone { width: auto; gap: 0.5rem; padding-inline: 0.75rem; font-weight: 700; }
+  .header-phone span { display: inline; }
+  .header-mobile-menu[open] .header-menu-toggle { right: 1.5rem; top: 30px; }
+  .header-menu-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .header-menu-contacts { border-top: 0; margin-top: 0; padding-top: 0.75rem; }
+}
+@media (min-width: 64rem) {
+  .header-mobile-menu[open] .header-menu-toggle { right: 2rem; }
+}
+@media (min-width: 80rem) {
+  .header-info { display: block; }
+  .header-main { flex-wrap: nowrap; gap: 2rem; }
+  .header-desktop-nav { display: block; margin-left: auto; }
+  .header-desktop-nav ul { display: flex; gap: 1.25rem; white-space: nowrap; font-size: 0.9375rem; }
+  .header-desktop-nav a { display: flex; align-items: center; min-height: 48px; border-bottom: 2px solid transparent; }
+  .header-desktop-nav a:hover { border-color: var(--brand-light-blue); }
+  .header-actions { margin-left: 0; gap: 0.75rem; }
+  .header-phone { padding-inline: 0; font-size: 0.9375rem; }
+  .header-phone svg { display: none; }
+  .header-max-desktop { display: inline-flex; padding-inline: 1rem; font-size: 0.875rem; }
+  .header-max-mobile, .header-mobile-menu { display: none; }
+}
+
+.hero-frame { overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.hero-intro { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); color: var(--brand-navy); font-size: 0.875rem; font-weight: 600; line-height: 1.5; }
+.hero-carousel { overflow: hidden; background: var(--surface); color: var(--brand-navy); }
+.hero-slides { display: grid; }
+.hero-slide { grid-area: 1 / 1; display: grid; visibility: hidden; min-width: 0; }
+.hero-slide[data-active="true"] { visibility: visible; }
+.hero-copy { padding: 1.75rem 1.25rem; min-width: 0; }
+.hero-eyebrow { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; font-weight: 600; }
+.hero-eyebrow span { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-navy); }
+.hero-copy h2 { margin-top: 1.25rem; font-size: clamp(1.875rem, 4.5vw, 3.75rem); font-weight: 700; line-height: 1.06; letter-spacing: -0.04em; overflow-wrap: anywhere; }
+.hero-accent { margin-top: 1.25rem; max-width: 30rem; font-size: 1.125rem; font-weight: 700; line-height: 1.4; }
+.hero-description { margin-top: 1rem; max-width: 29rem; font-size: 0.9375rem; line-height: 1.7; color: var(--foreground); }
+.hero-cta { min-height: 48px; margin-top: 1.75rem; padding: 0.875rem 1.125rem; border-radius: 5px; background: var(--brand-navy); color: white; font-size: 0.875rem; font-weight: 700; justify-content: center; }
+.hero-cta:focus-visible { outline: 2px solid var(--brand-navy); outline-offset: 4px; }
+.hero-cta:hover { background: #003653; }
+.hero-visual { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 230px; padding: 1.5rem; overflow: hidden; background: #e4f3fa; }
+.hero-visual::before { content: ""; position: absolute; z-index: -1; height: 160%; width: 44%; transform: rotate(25deg); background: var(--brand-light-blue); opacity: 0.13; right: 4%; }
+.hero-symbol { width: 150px; height: 150px; color: var(--brand-navy); }
+.hero-visual-label { margin-top: 0.5rem; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
+.hero-visual-caption { margin-top: 0.25rem; font-size: 0.8125rem; }
+.hero-product { object-fit: contain; padding: 2rem; }
+.hero-controls { display: grid; grid-template-columns: 1fr auto; justify-content: space-between; align-items: center; gap: 0.25rem; border-top: 1px solid var(--border); padding: 0.75rem 1rem; background: white; }
+.hero-arrows { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; gap: 0.375rem; }
+.hero-arrows span { font-size: 0.8125rem; font-variant-numeric: tabular-nums; min-width: 2.5rem; text-align: center; }
+.hero-controls button { cursor: pointer; min-width: 44px; min-height: 44px; border-radius: 6px; }
+.hero-controls button:focus-visible { outline: 2px solid var(--brand-navy); outline-offset: -2px; }
+.hero-controls button:hover { background: var(--surface); }
+.hero-arrows button { display: grid; place-items: center; border: 1px solid var(--border); background: white; border-radius: 50%; }
+.hero-indicators { display: flex; justify-content: flex-start; }
+.hero-indicators button { display: grid; place-items: center; min-width: 44px; width: 44px; }
+.hero-indicators span { width: 6px; height: 6px; border-radius: 6px; background: #8195a2; }
+.hero-indicators [aria-pressed="true"] span { width: 22px; background: var(--brand-navy); }
+.hero-pause { display: inline-flex; justify-content: center; align-items: center; gap: 0.5rem; padding-inline: 0.75rem; border: 1px solid var(--border); font-size: 0.8125rem; font-weight: 600; }
+.hero-pause[aria-pressed="true"] { background: var(--surface); }
+.hero-store-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); }
+.hero-store-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--brand-navy); text-decoration: underline; text-underline-offset: 4px; }
+.hero-store-links span { align-self: center; }
+/* Mobile: give the store heading priority and keep seasonal artwork compact. */
+@media (width < 48rem) {
+  .hero-intro { padding-block: 1rem; font-size: 1.5rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.03em; }
+  .hero-copy { padding-block: 1.25rem; }
+  .hero-copy h2 { margin-top: 0.75rem; font-size: 1.75rem; line-height: 1.15; }
+  .hero-accent { margin-top: 0.75rem; }
+  .hero-description { margin-top: 0.75rem; line-height: 1.6; }
+  .hero-cta { margin-top: 1rem; }
+  .hero-visual { min-height: 170px; padding: 1rem; }
+  .hero-symbol { width: 88px; height: 88px; }
+  .hero-visual-label { margin-top: 0.25rem; font-size: 1.5rem; }
+  .hero-controls { padding-block: 0.5rem; }
+  .hero-store-links { padding-block: 0.5rem; }
+}
+@media (min-width: 48rem) {
+  .hero-slide { grid-template-columns: 1.2fr 1fr; }
+  .hero-copy { padding: 2.5rem 2rem; }
+  .hero-visual { min-height: 470px; }
+  .hero-symbol { width: 240px; height: 240px; }
+  .hero-visual-label { font-size: 2.5rem; }
+  .hero-intro, .hero-store-links { padding-inline: 2rem; }
+  .hero-controls { display: flex; padding-inline: 2rem; }
+  .hero-arrows { justify-content: flex-start; }
+  .hero-indicators { order: initial; }
+  .hero-indicators button { min-width: 44px; width: 44px; }
+}
+@media (min-width: 64rem) {
+  .hero-intro, .hero-store-links, .hero-controls { padding-inline: 3.5rem; }
+  .hero-copy { padding: 3.5rem; }
+  .hero-visual { min-height: 530px; }
+  .hero-symbol { width: 300px; height: 300px; }
+}
+
+.assortment-brand-border::before,
+.oils-brand-border::after {
+  content: "";
+  display: block;
+  height: 70px;
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 200px 70px;
+}
+.assortment-brand-border::before {
+  margin-bottom: 2rem;
+  background-color: white;
+  background-image: url("/images/brand/pattern-light.webp");
+}
+.oils-brand-border::after {
+  margin-top: 2rem;
+  background-color: var(--brand-navy);
+  background-image: url("/images/brand/pattern-navy.webp");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-carousel .hero-pause {
+    display: none;
+  }
+}
