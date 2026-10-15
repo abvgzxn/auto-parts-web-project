@@ -196,6 +196,16 @@ test("шапка на всех контрольных ширинах", async ({ 
       for (const [label, id] of navigation) await expect(header.getByRole("navigation", { name: "Основная навигация", exact: true }).getByRole("link", { name: label, exact: true })).toHaveAttribute("href", `#${id}`);
       await expect(header.locator(".header-info")).toContainText(siteConfig.address.short);
       await expect(header.locator(".header-info a")).toHaveAttribute("href", siteConfig.mapsUrl);
+      const mapLinkSize = await header.locator(".header-info a").evaluate((element) => {
+        const { width, height } = element.getBoundingClientRect();
+        return { width, height };
+      });
+      expect(mapLinkSize.width).toBeGreaterThanOrEqual(44);
+      expect(mapLinkSize.height).toBeGreaterThanOrEqual(44);
+      await testInfo.attach(`header-map-link-${width}`, {
+        body: JSON.stringify(mapLinkSize),
+        contentType: "application/json",
+      });
     }
     if (width === 390 || width === 1440) {
       await page.evaluate(() => document.fonts.ready);
@@ -309,7 +319,7 @@ test("ассортимент и консультация доступны на �
       expect(box!.x).toBeGreaterThanOrEqual(0);
       expect(box!.x + box!.width).toBeLessThanOrEqual(width);
     }
-    await expect(assortment).toContainText("Возможность и срок поставки зависят от позиции");
+    await expect(assortment).toContainText("Некоторые товары доступны под заказ с доставкой от одного дня. Возможность заказа и точный срок поставки уточняйте у продавца.");
     await expect(page.locator("#selection")).toContainText("При необходимости продавец");
     await expect(page.locator("#selection").getByRole("link", { name: "Уточнить наличие в MAX" })).toHaveAttribute("href", siteConfig.maxUrl);
     expect(await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth) - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);

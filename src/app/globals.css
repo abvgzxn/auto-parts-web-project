@@ -67,7 +67,7 @@ body {
 .wellcar-header { background: var(--brand-navy); color: white; }
 .header-info { display: none; background: var(--surface); color: var(--brand-navy); border-bottom: 1px solid var(--border); }
 .header-info-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 42px; font-size: 0.8125rem; }
-.header-info a { text-decoration: underline; text-underline-offset: 4px; }
+.header-info a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; }
 .header-hours { display: flex; gap: 1.5rem; }
 .header-main { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; padding-block: 0.5rem; }
 .header-logo { flex-shrink: 0; border-radius: 4px; }

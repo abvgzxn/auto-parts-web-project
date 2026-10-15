@@ -73,8 +73,8 @@ export default function Categories() {
         ))}
       </div>
       <p className="mt-6 max-w-3xl text-sm leading-6 text-muted">
-        В рекламных материалах указан срок доставки от одного дня.
-        Возможность и срок поставки зависят от позиции — уточните их у продавца перед заказом.
+        Некоторые товары доступны под заказ с доставкой от одного дня.
+        Возможность заказа и точный срок поставки уточняйте у продавца.
       </p>
       <a href="#selection" className="mt-4 inline-flex min-h-12 items-center font-semibold text-brand-navy underline underline-offset-4">
         Связаться с магазином
