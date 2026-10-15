@@ -162,6 +162,20 @@ body {
 .hero-store-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); }
 .hero-store-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--brand-navy); text-decoration: underline; text-underline-offset: 4px; }
 .hero-store-links span { align-self: center; }
+/* Mobile: give the store heading priority and keep seasonal artwork compact. */
+@media (width < 48rem) {
+  .hero-intro { padding-block: 1rem; font-size: 1.5rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.03em; }
+  .hero-copy { padding-block: 1.25rem; }
+  .hero-copy h2 { margin-top: 0.75rem; font-size: 1.75rem; line-height: 1.15; }
+  .hero-accent { margin-top: 0.75rem; }
+  .hero-description { margin-top: 0.75rem; line-height: 1.6; }
+  .hero-cta { margin-top: 1rem; }
+  .hero-visual { min-height: 170px; padding: 1rem; }
+  .hero-symbol { width: 88px; height: 88px; }
+  .hero-visual-label { margin-top: 0.25rem; font-size: 1.5rem; }
+  .hero-controls { padding-block: 0.5rem; }
+  .hero-store-links { padding-block: 0.5rem; }
+}
 @media (min-width: 48rem) {
   .hero-slide { grid-template-columns: 1.2fr 1fr; }
   .hero-copy { padding: 2.5rem 2rem; }
