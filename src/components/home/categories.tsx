@@ -1,9 +1,5 @@
-
-type Category = {
-  id: string;
-  title: string;
-  description: string;
-};
+import AssortmentCard from "@/components/ui/assortment-card";
+import type { Category } from "@/types/category";
 
 const categories: Category[] = [
   {
@@ -70,18 +66,10 @@ export default function Categories() {
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
         {categories.map((category) => (
-          <article
+            <AssortmentCard
             key={category.id}
-            className="rounded-xl border border-border bg-surface p-6"
-          >
-            <h3 className="text-xl font-semibold text-brand-navy">
-              {category.title}
-            </h3>
-
-            <p className="mt-3 leading-6 text-muted">
-              {category.description}
-            </p>
-          </article>
+            category={category}
+            />
         ))}
       </div>
       <p className="mt-6 max-w-3xl text-sm leading-6 text-muted">
