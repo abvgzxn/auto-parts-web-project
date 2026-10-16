@@ -129,23 +129,19 @@ body {
 .hero-intro { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); color: var(--brand-navy); font-size: 0.875rem; font-weight: 600; line-height: 1.5; }
 .hero-carousel { overflow: hidden; background: var(--surface); color: var(--brand-navy); }
 .hero-slides { display: grid; }
-.hero-slide { grid-area: 1 / 1; display: grid; visibility: hidden; min-width: 0; }
+.hero-slide { grid-area: 1 / 1; display: grid; visibility: hidden; min-width: 0; grid-template-columns: minmax(0, 1fr) 44%; grid-template-areas: "title title" "copy visual" "cta cta"; grid-template-rows: auto 250px auto; padding: 1rem; gap: 1rem 0.75rem; }
 .hero-slide[data-active="true"] { visibility: visible; }
-.hero-copy { padding: 1.75rem 1.25rem; min-width: 0; }
-.hero-eyebrow { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; font-weight: 600; }
-.hero-eyebrow span { width: 7px; height: 7px; border-radius: 50%; background: var(--brand-navy); }
-.hero-copy h2 { margin-top: 1.25rem; font-size: clamp(1.875rem, 4.5vw, 3.75rem); font-weight: 700; line-height: 1.06; letter-spacing: -0.04em; overflow-wrap: anywhere; }
-.hero-accent { margin-top: 1.25rem; max-width: 30rem; font-size: 1.125rem; font-weight: 700; line-height: 1.4; }
-.hero-description { margin-top: 1rem; max-width: 29rem; font-size: 0.9375rem; line-height: 1.7; color: var(--foreground); }
-.hero-cta { min-height: 48px; margin-top: 1.75rem; padding: 0.875rem 1.125rem; border-radius: 5px; background: var(--brand-navy); color: white; font-size: 0.875rem; font-weight: 700; justify-content: center; }
+.hero-slide-title { grid-area: title; min-height: 2.3em; font-size: 1.625rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.035em; overflow-wrap: anywhere; }
+.hero-copy { display: contents; }
+.hero-details { grid-area: copy; min-width: 0; align-self: center; }
+.hero-accent { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+.hero-description { margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.55; color: var(--foreground); }
+.hero-cta { grid-area: cta; min-height: 48px; padding: 0.875rem 0.75rem; border-radius: 5px; background: var(--brand-navy); color: white; font-size: 0.875rem; font-weight: 700; justify-content: center; }
 .hero-cta:focus-visible { outline: 2px solid var(--brand-navy); outline-offset: 4px; }
 .hero-cta:hover { background: #003653; }
-.hero-visual { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 230px; padding: 1.5rem; overflow: hidden; background: #e4f3fa; }
-.hero-visual::before { content: ""; position: absolute; z-index: -1; height: 160%; width: 44%; transform: rotate(25deg); background: var(--brand-light-blue); opacity: 0.13; right: 4%; }
-.hero-symbol { width: 150px; height: 150px; color: var(--brand-navy); }
-.hero-visual-label { margin-top: 0.5rem; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
-.hero-visual-caption { margin-top: 0.25rem; font-size: 0.8125rem; }
-.hero-product { object-fit: contain; padding: 2rem; }
+.hero-visual { grid-area: visual; position: relative; min-width: 0; min-height: 0; overflow: hidden; background: #062c44; border-radius: 6px; }
+.hero-visual picture { display: block; width: 100%; height: 100%; }
+.hero-product { display: block; width: 100%; height: 100%; object-fit: contain; }
 .hero-controls { display: grid; grid-template-columns: 1fr auto; justify-content: space-between; align-items: center; gap: 0.25rem; border-top: 1px solid var(--border); padding: 0.75rem 1rem; background: white; }
 .hero-arrows { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; gap: 0.375rem; }
 .hero-arrows span { font-size: 0.8125rem; font-variant-numeric: tabular-nums; min-width: 2.5rem; text-align: center; }
@@ -162,37 +158,38 @@ body {
 .hero-store-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding: 0.75rem 1.25rem; border-top: 1px solid var(--border); font-size: 0.8125rem; color: var(--muted); }
 .hero-store-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--brand-navy); text-decoration: underline; text-underline-offset: 4px; }
 .hero-store-links span { align-self: center; }
-/* Mobile: give the store heading priority and keep seasonal artwork compact. */
+/* Mobile stacks the product photo and readable HTML; desktop keeps its banner layout. */
 @media (width < 48rem) {
   .hero-intro { padding-block: 1rem; font-size: 1.5rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.03em; }
-  .hero-copy { padding-block: 1.25rem; }
-  .hero-copy h2 { margin-top: 0.75rem; font-size: 1.75rem; line-height: 1.15; }
-  .hero-accent { margin-top: 0.75rem; }
-  .hero-description { margin-top: 0.75rem; line-height: 1.6; }
-  .hero-cta { margin-top: 1rem; }
-  .hero-visual { min-height: 170px; padding: 1rem; }
-  .hero-symbol { width: 88px; height: 88px; }
-  .hero-visual-label { margin-top: 0.25rem; font-size: 1.5rem; }
+  .hero-slide:not([data-product="batteries"]) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "visual" "copy" "cta"; grid-template-rows: auto clamp(230px, calc(71.43vw + 1.43px), 280px) auto auto; gap: 0.5rem; }
+  .hero-slide:not([data-product="batteries"]) .hero-visual { background: #e0eff7; }
+  .hero-slide:not([data-product="batteries"]) .hero-description { margin-top: 0.375rem; line-height: 1.45; }
+  .hero-slide[data-product="batteries"] { grid-template-areas: "title title" "visual visual" "copy copy" "cta cta"; grid-template-rows: auto 180px 1fr auto; }
+  .hero-slide[data-product="batteries"] .hero-accent { display: none; }
+  .hero-slide[data-product="batteries"] .hero-description { margin-top: 0; }
   .hero-controls { padding-block: 0.5rem; }
   .hero-store-links { padding-block: 0.5rem; }
 }
+/* Preserve the finished banner's natural proportions and keep the CTA outside it. */
 @media (min-width: 48rem) {
-  .hero-slide { grid-template-columns: 1.2fr 1fr; }
-  .hero-copy { padding: 2.5rem 2rem; }
-  .hero-visual { min-height: 470px; }
-  .hero-symbol { width: 240px; height: 240px; }
-  .hero-visual-label { font-size: 2.5rem; }
+  .hero-slide { grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr); grid-template-areas: "visual copy"; grid-template-rows: auto; padding: 0; gap: 0; background: #062c44; color: white; }
+  .hero-slide-title { position: absolute; width: 1px; height: 1px; min-height: 0; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .hero-visual { aspect-ratio: 1387 / 1134; border-radius: 0; }
+  .hero-copy { grid-area: copy; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 1.5rem; }
+  .hero-accent { font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.3; }
+  .hero-description { margin-top: 1rem; color: #d4e4ef; font-size: 1rem; line-height: 1.6; }
+  .hero-cta { margin-top: 1.5rem; background: white; color: var(--brand-navy); }
+  .hero-cta:hover { background: var(--brand-gray); }
+  .hero-cta:focus-visible { outline-color: white; }
   .hero-intro, .hero-store-links { padding-inline: 2rem; }
   .hero-controls { display: flex; padding-inline: 2rem; }
   .hero-arrows { justify-content: flex-start; }
   .hero-indicators { order: initial; }
-  .hero-indicators button { min-width: 44px; width: 44px; }
 }
 @media (min-width: 64rem) {
+  .hero-copy { padding: 2rem; }
+
   .hero-intro, .hero-store-links, .hero-controls { padding-inline: 3.5rem; }
-  .hero-copy { padding: 3.5rem; }
-  .hero-visual { min-height: 530px; }
-  .hero-symbol { width: 300px; height: 300px; }
 }
 
 .assortment-brand-border::before,
