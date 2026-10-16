@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Keep the supplied banner lettering sharp through the image optimizer.
+  images: { qualities: [75, 90] },
   turbopack: {
     rules: {
       "*.css": {

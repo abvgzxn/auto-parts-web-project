@@ -4,8 +4,11 @@ export interface HeroSlide {
   title: string;
   accent: string;
   description: string;
-  imageSrc?: string;
-  imageAlt?: string;
+  imageSrc: string;
+  imageAlt: string;
+  mobileImageSrc: string;
+  mobileImageWidth: number;
+  mobileImageHeight: number;
   ctaLabel: string;
   ctaHref: string;
 }

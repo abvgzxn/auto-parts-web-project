@@ -1,9 +1,36 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import { useEffect, useState } from "react";
 import MaxLink from "@/components/ui/max-link";
 import { heroSlides } from "@/lib/hero-slides";
+import type { HeroSlide } from "@/types/hero-slide";
+
+// One picture lets the browser choose a composition before requesting an image.
+function HeroSlideImage({ slide, first }: { slide: HeroSlide; first: boolean }) {
+  const common = {
+    alt: slide.imageAlt,
+    quality: 90,
+    loading: first ? "eager" as const : "lazy" as const,
+    fetchPriority: first ? "high" as const : "auto" as const,
+  };
+  const { props: desktop } = getImageProps({
+    ...common, src: slide.imageSrc, width: 1387, height: 1134,
+    sizes: "(min-width: 1280px) 810px, (min-width: 1024px) calc((100vw - 66px) * 2 / 3), calc(100vw - 290px)",
+  });
+  const { props: mobile } = getImageProps({
+    ...common, src: slide.mobileImageSrc,
+    width: slide.mobileImageWidth, height: slide.mobileImageHeight,
+    sizes: slide.id === "batteries" ? "(min-width: 480px) 240px, calc(100vw - 66px)" : "calc(100vw - 66px)",
+  });
+  return (
+    <picture>
+      <source media="(min-width: 768px)" srcSet={desktop.srcSet} sizes={desktop.sizes} width={1387} height={1134} />
+      {/* getImageProps supplies the responsive Next.js image URLs. */}
+      <img {...mobile} alt={slide.imageAlt} className="hero-product" />
+    </picture>
+  );
+}
 
 export default function HeroCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -65,28 +92,17 @@ export default function HeroCarousel() {
     <section aria-label="Сезонные предложения" aria-roledescription="карусель" className="hero-carousel" onFocusCapture={() => setIsFocusPaused(true)}>
       <div className="hero-slides" aria-live={isAutoplayPaused ? "polite" : "off"} aria-atomic="true">
         {heroSlides.map((slide, index) => (
-          <div key={slide.id} className="hero-slide" data-active={index === activeIndex} inert={index !== activeIndex} aria-hidden={index !== activeIndex}>
+          <div key={slide.id} className="hero-slide" data-active={index === activeIndex} data-product={slide.id} inert={index !== activeIndex} aria-hidden={index !== activeIndex}>
+            <h2 className="hero-slide-title">{slide.title}</h2>
             <div className="hero-copy">
-              <p className="hero-eyebrow"><span aria-hidden="true" />{slide.eyebrow}</p>
-              <h2>{slide.title}</h2>
-              <p className="hero-accent">{slide.accent}</p>
-              <p className="hero-description">{slide.description}</p>
+              <div className="hero-details">
+                <p className="hero-accent">{slide.accent}</p>
+                <p className="hero-description">{slide.description}</p>
+              </div>
               <MaxLink text={slide.ctaLabel} className="hero-cta" />
             </div>
             <div className="hero-visual">
-              {slide.imageSrc ? (index === activeIndex ? (
-                <Image src={slide.imageSrc} alt={slide.imageAlt ?? slide.title} fill sizes="(min-width: 1024px) 480px, (min-width: 768px) 40vw, 85vw" className="hero-product" loading={index === 0 ? "eager" : "lazy"} />
-              ) : null) : (
-                <>
-                  <svg className="hero-symbol" viewBox="0 0 240 240" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <circle cx="120" cy="120" r="108" strokeWidth="1" />
-                    <circle cx="120" cy="120" r="92" strokeWidth="1" strokeDasharray="2 12" />
-                    {slide.id === "motor-oils" ? <path d="M120 52C104 80 76 106 76 136a44 44 0 0 0 88 0c0-30-28-56-44-84Zm-25 86c0 14 10 25 25 25" /> : slide.id === "winter-fluid" ? <path d="M120 56v128M65 88l110 64M65 152l110-64M104 65l16 16 16-16M104 175l16-16 16 16M66 107l22-6-6-22M158 161l-6-22 22-6M82 161l6-22-22-6M174 107l-22-6 6-22" /> : <path d="m130 56-42 74h34l-12 54 44-78h-34l10-50Z" />}
-                  </svg>
-                  <p className="hero-visual-label">{slide.id === "motor-oils" ? "LUKOIL" : slide.id === "batteries" ? "АКОМ" : "Зимний уход"}</p>
-                  <p className="hero-visual-caption">{slide.id === "motor-oils" ? "Защита двигателя" : slide.id === "batteries" ? "Энергия для старта" : "Чистое стекло. Хороший обзор."}</p>
-                </>
-              )}
+              {index === activeIndex ? <HeroSlideImage slide={slide} first={index === 0} /> : null}
             </div>
           </div>
         ))}

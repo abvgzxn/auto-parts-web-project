@@ -97,7 +97,7 @@ test("мобильное меню закрывается после выбора
 
 test("ссылки MAX и оба телефона", async ({ page }) => {
   const maxLinks = page.locator('a[href^="https://max.ru/"]');
-  await expect(maxLinks).toHaveCount(9);
+  await expect(maxLinks).toHaveCount(10);
   for (const link of await maxLinks.all()) {
     await expect(link).toHaveAttribute("href", siteConfig.maxUrl);
     if (!(await link.isVisible())) continue;
@@ -327,4 +327,18 @@ test("ассортимент и консультация доступны на �
   await page.locator("#assortment").getByRole("link", { name: "Связаться с магазином" }).click();
   await expect(page).toHaveURL(/#selection$/);
   await expect(page.locator("#selection")).toBeInViewport();
+});
+
+
+test("новый фасад загружается и сохраняет пропорции", async ({ page }, testInfo) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    const about = page.locator("#about");
+    const photo = about.getByRole("img");
+    await photo.scrollIntoViewIfNeeded();
+    await expect.poll(() => photo.evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
+    const box = await photo.boundingBox();
+    expect(box!.width / box!.height).toBeCloseTo(4 / 3, 2);
+    await about.screenshot({ path: testInfo.outputPath(`storefront-${width}.png`), style: "nextjs-portal { display: none !important; }" });
+  }
 });
