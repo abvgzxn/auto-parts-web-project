@@ -1,7 +1,7 @@
 "use client";
 
 import { getImageProps } from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MaxLink from "@/components/ui/max-link";
 import { heroSlides } from "@/lib/hero-slides";
 import type { HeroSlide } from "@/types/hero-slide";
@@ -36,7 +36,9 @@ export default function HeroCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isFocusPaused, setIsFocusPaused] = useState(false);
-  const isAutoplayPaused = isPaused || isFocusPaused;
+  const [isHovered, setIsHovered] = useState(false);
+  const isRotationStopped = isPaused || isFocusPaused;
+  const isAutoplayPaused = isRotationStopped || isHovered;
 
   const nextSlide = () => {
     setIsPaused(true);
@@ -55,12 +57,16 @@ export default function HeroCarousel() {
     setActiveIndex(index);
   };
 
+  // Pointer focus happens before click; keep the action the user initially pressed.
+  const pointerStopped = useRef<boolean | null>(null);
   const togglePause = () => {
-    if (isPaused) {
-    setIsPaused(false);
-    setIsFocusPaused(false);
+    const wasStopped = pointerStopped.current ?? isRotationStopped;
+    pointerStopped.current = null;
+    if (wasStopped) {
+      setIsPaused(false);
+      setIsFocusPaused(false);
     } else {
-    setIsPaused(true);
+      setIsPaused(true);
     }
   };
 
@@ -71,14 +77,14 @@ export default function HeroCarousel() {
     const syncAutoplay = () => {
       window.clearInterval(intervalId);
       intervalId = undefined;
-     if (isAutoplayPaused || mediaQuery.matches || heroSlides.length <= 1) {
-     return;
-      };
+      if (isAutoplayPaused || mediaQuery.matches || heroSlides.length <= 1) {
+        return;
+      }
 
       intervalId = window.setInterval(() => {
         setActiveIndex((currentIndex) => (currentIndex + 1) % heroSlides.length);
       }, 6000);
-    }
+    };
 
     mediaQuery.addEventListener("change", syncAutoplay);
     syncAutoplay();
@@ -89,7 +95,14 @@ export default function HeroCarousel() {
   }, [isAutoplayPaused]);
 
   return (
-    <section aria-label="Сезонные предложения" aria-roledescription="карусель" className="hero-carousel" onFocusCapture={() => setIsFocusPaused(true)}>
+    <section aria-label="Сезонные предложения" aria-roledescription="карусель" className="hero-carousel" onFocusCapture={() => setIsFocusPaused(true)} onPointerEnter={(event) => { if (event.pointerType === "mouse") setIsHovered(true); }} onPointerLeave={(event) => { if (event.pointerType === "mouse") setIsHovered(false); }}>
+      <button type="button" className="hero-pause" onPointerDown={() => { pointerStopped.current = isRotationStopped; }} onPointerCancel={() => { pointerStopped.current = null; }} onClick={togglePause}
+        aria-label={isRotationStopped ? "Продолжить" : "Пауза"}
+        title={isRotationStopped ? "Продолжить" : "Пауза"} aria-pressed={isRotationStopped}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+          {isRotationStopped ? <path d="m8 5 11 7-11 7V5Z" /> : <path d="M8 5v14M16 5v14" />}
+        </svg>
+      </button>
       <div className="hero-slides" aria-live={isAutoplayPaused ? "polite" : "off"} aria-atomic="true">
         {heroSlides.map((slide, index) => (
           <div key={slide.id} className="hero-slide" data-active={index === activeIndex} data-product={slide.id} inert={index !== activeIndex} aria-hidden={index !== activeIndex}>
@@ -126,12 +139,7 @@ export default function HeroCarousel() {
             <button key={slide.id} type="button" onClick={() => goToSlide(index)} aria-label={`Показать слайд ${index + 1}: ${slide.title}`} aria-pressed={activeIndex === index}><span /></button>
           ))}
         </div>
-        <button type="button" className="hero-pause" onClick={togglePause} aria-pressed={isPaused}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
-            {isPaused ? <path d="m8 5 11 7-11 7V5Z" /> : <path d="M8 5v14M16 5v14" />}
-          </svg>
-          <span>{isPaused ? "Продолжить" : "Пауза"}</span>
-        </button>
+
       </div>
     </section>
   );

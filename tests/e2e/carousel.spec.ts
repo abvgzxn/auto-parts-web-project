@@ -50,6 +50,7 @@ test("автопрокрутка останавливается и возобн�
 
   await carousel.getByRole("button", { name: /Пауза/ }).click();
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
+  await page.mouse.move(0, 0);
 
   const title = carousel.getByRole("heading", {
     level: 2,
@@ -68,6 +69,7 @@ test("автопрокрутка останавливается и возобн�
   await expect(title).toHaveText("Щётки стеклоочистителя");
 
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
+  await page.mouse.move(0, 0);
 
   await page.clock.runFor(6000);
 
@@ -146,6 +148,7 @@ test("карусель реагирует на изменение reduced motion
 
   await carousel.getByRole("button", { name: /Пауза/ }).click();
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
+  await page.mouse.move(0, 0);
 
   const title = carousel.getByRole("heading", {
     level: 2,
@@ -280,6 +283,7 @@ test("ручное управление ставит автопрокрутку 
   const carousel = page.getByRole("region", { name: "Сезонные предложения" });
   await carousel.getByRole("button", { name: /Пауза/ }).click();
   await carousel.getByRole("button", { name: /Продолжить/ }).click();
+  await page.mouse.move(0, 0);
 
   await page.clock.runFor(5900);
   await carousel.getByRole("button", { name: "Следующий слайд" }).click();
@@ -326,6 +330,7 @@ test("кнопка паузы корректно останавливает и �
   await expect(counter).toHaveText("1 / 4");
 
   await page.getByRole("button", { name: "Продолжить" }).click();
+  await page.mouse.move(0, 0);
 
   await expect(
     page.getByRole("button", { name: "Пауза" })
@@ -356,5 +361,85 @@ test("art direction: загружается только подходящий п
     await expect(photo).toHaveAttribute("fetchpriority", "high");
     await expect(photo).toHaveAttribute("loading", "eager");
     await page.close();
+  }
+});
+
+test("hover временно останавливает вращение, фокус требует явного продолжения", async ({ page }) => {
+  await page.clock.install();
+  await page.goto("/");
+  const carousel = page.getByRole("region", { name: "Сезонные предложения" });
+  const title = carousel.getByRole("heading");
+  await carousel.hover();
+  await page.clock.runFor(12000);
+  await expect(title).toHaveText("Автомобильные аккумуляторы");
+  await page.mouse.move(0, 0);
+  await page.clock.runFor(6000);
+  await expect(title).toHaveText("Щётки стеклоочистителя");
+  await carousel.getByRole("link").focus();
+  await page.keyboard.press("Tab");
+  await page.getByRole("link", { name: "Телефоны магазина" }).focus();
+  await page.clock.runFor(12000);
+  await expect(title).toHaveText("Щётки стеклоочистителя");
+  const resume = carousel.getByRole("button", { name: "Продолжить" });
+  await resume.focus();
+  await page.keyboard.press("Enter");
+  await page.clock.runFor(6000);
+  await expect(title).toHaveText("Моторное масло на розлив");
+  await page.keyboard.press("Tab");
+  await expect(carousel.getByRole("link")).toBeFocused();
+  await carousel.hover();
+  await page.mouse.move(0, 0);
+  await page.clock.runFor(12000);
+  await expect(title).toHaveText("Моторное масло на розлив");
+  await expect(carousel.getByRole("button", { name: "Продолжить" })).toHaveAttribute("aria-pressed", "true");
+});
+
+test("controls: безопасные области, Tab, размеры и снимки всех слайдов", async ({ page }, testInfo) => {
+  await page.goto("/");
+  await page.addStyleTag({ content: "nextjs-portal { display: none !important; }" });
+  const carousel = page.getByRole("region", { name: "Сезонные предложения" });
+  await carousel.locator(".hero-pause").focus();
+  await expect(carousel.getByRole("button", { name: "Продолжить" })).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(carousel.getByRole("link")).toBeFocused();
+  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (let index = 0; index < 4; index++) {
+      await carousel.locator(".hero-indicators button").nth(index).click();
+      const slide = carousel.locator('.hero-slide[data-active="true"]');
+      const protectedBoxes = await Promise.all([".hero-visual", ".hero-details", ".hero-cta"].map(selector => slide.locator(selector).boundingBox()));
+      for (const button of await carousel.getByRole("button").all()) {
+        const box = (await button.boundingBox())!;
+        expect(box.width).toBeGreaterThanOrEqual(44);
+        expect(box.height).toBeGreaterThanOrEqual(44);
+        if (await button.evaluate(el => el.matches('.hero-pause, .hero-arrows button'))) {
+          for (const target of protectedBoxes) {
+            const overlap = Math.min(box.x + box.width, target!.x + target!.width) > Math.max(box.x, target!.x)
+              && Math.min(box.y + box.height, target!.y + target!.height) > Math.max(box.y, target!.y);
+            expect(overlap).toBe(false);
+          }
+        }
+      }
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+      if (width === 390 || width === 1440) {
+        const photo = carousel.locator(".hero-product");
+        await expect.poll(() => photo.evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
+        // A fresh page avoids stale Chromium screenshot layers after repeated resizing.
+        const capturePage = await page.context().newPage();
+        await capturePage.setViewportSize({ width, height: 1000 });
+        await capturePage.goto("/");
+        await capturePage.addStyleTag({ content: "nextjs-portal { display: none !important; }" });
+        const captureHero = capturePage.getByRole("region", { name: "Сезонные предложения" });
+        await captureHero.locator(".hero-indicators button").nth(index).click();
+        await captureHero.locator(".hero-pause").focus();
+        await expect(captureHero.getByRole("link")).toBeVisible();
+        await expect.poll(() => captureHero.locator(".hero-product").evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
+        await capturePage.evaluate(() => document.fonts.ready);
+        const path = testInfo.outputPath(`controls-${width}-slide-${index + 1}.png`);
+        await captureHero.screenshot({ path });
+        await capturePage.close();
+        await testInfo.attach(`controls-${width}-slide-${index + 1}`, { path, contentType: "image/png" });
+      }
+    }
   }
 });
