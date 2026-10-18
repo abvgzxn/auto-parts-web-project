@@ -167,11 +167,19 @@ body {
 .hero-store-links span { align-self: center; }
 /* Mobile stacks the product photo and readable HTML; desktop keeps its banner layout. */
 @media (width < 48rem) {
-  .hero-intro { padding-block: 1rem; font-size: 1.5rem; font-weight: 700; line-height: 1.25; letter-spacing: -0.03em; }
+  .hero-intro { padding-block: 0.75rem; font-size: 1rem; font-weight: 500; line-height: 1.4; }
+  .hero-slide-title { font-size: 1.75rem; line-height: 1.2; }
+  /* All slides share the outer grid cell; content determines its tallest row. */
+  .hero-slide .hero-cta { margin-top: 1rem; }
+  .hero-slides { padding-bottom: 68px; }
+  .hero-pause { bottom: 68px; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--brand-navy); }
+  .hero-pause:hover, .hero-pause:active { background: transparent; }
+  .hero-pause:focus-visible { outline: 3px solid var(--brand-navy); outline-offset: -3px; }
   .hero-slide:not([data-product="batteries"]) { grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "visual" "copy" "cta"; grid-template-rows: auto clamp(230px, calc(71.43vw + 1.43px), 280px) auto auto; gap: 0.5rem; }
   .hero-slide:not([data-product="batteries"]) .hero-visual { background: #e0eff7; }
   .hero-slide:not([data-product="batteries"]) .hero-description { margin-top: 0.375rem; line-height: 1.45; }
   .hero-slide[data-product="batteries"] { grid-template-areas: "title title" "visual visual" "copy copy" "cta cta"; grid-template-rows: auto 180px 1fr auto; }
+  .hero-slide[data-product="batteries"] .hero-cta { margin-top: 0.5rem; }
   .hero-slide[data-product="batteries"] .hero-accent { display: none; }
   .hero-slide[data-product="batteries"] .hero-description { margin-top: 0; }
 

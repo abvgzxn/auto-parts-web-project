@@ -191,7 +191,7 @@ test("Hero: размеры, клавиатура и стабильная выс�
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const carousel = page.getByRole("region", { name: "Сезонные предложения" });
-  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+  for (const width of [320, 375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     await page.evaluate(() => document.fonts.ready);
     let height: number | undefined;
@@ -249,8 +249,8 @@ test("Hero: размеры, клавиатура и стабильная выс�
       height ??= box!.height;
       expect(box!.height).toBe(height);
       if (width === 320 || width === 390) {
-        // The stacked composition may add at most 80px to the previous 543px Hero.
-        expect(box!.height).toBeLessThanOrEqual(623);
+        // Reserve readable copy spacing and a separate 44px pause control row.
+        expect(box!.height).toBeLessThanOrEqual(680);
       }
       expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
       const link = carousel.getByRole("link");
@@ -342,7 +342,7 @@ test("кнопка паузы корректно останавливает и �
 
 
 test("art direction: загружается только подходящий первый баннер", async ({ browser }) => {
-  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+  for (const width of [320, 375, 390, 430, 768, 1024, 1280, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
     const requested: string[] = [];
     const record = (request: import("@playwright/test").Request) => {
@@ -402,7 +402,7 @@ test("controls: безопасные области, Tab, размеры и сн
   await expect(carousel.getByRole("button", { name: "Продолжить" })).toBeFocused();
   await page.keyboard.press("Tab");
   await expect(carousel.getByRole("link")).toBeFocused();
-  for (const width of [320, 390, 768, 1024, 1280, 1440]) {
+  for (const width of [320, 375, 390, 430, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 1000 });
     for (let index = 0; index < 4; index++) {
       await carousel.locator(".hero-indicators button").nth(index).click();
@@ -486,5 +486,44 @@ test("мобильные ghost controls: центрирование и непе�
     await page.mouse.down();
     await expect(previous).toHaveCSS("background-color", "rgb(217, 237, 249)");
     await page.mouse.up();
+  }
+});
+
+
+test("мобильный Hero: иерархия, интервалы и лёгкая кнопка паузы", async ({ page }) => {
+  await page.goto("/");
+  const pause = page.locator(".hero-pause");
+  await pause.focus();
+  await page.keyboard.press("Tab");
+  await page.keyboard.press("Shift+Tab");
+  await expect(pause).toBeFocused();
+  await expect(pause).toHaveCSS("outline-width", "3px");
+  for (const width of [320, 375, 390, 430]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await expect(page.locator(".hero-intro")).toHaveCSS("font-size", "16px");
+    await expect(pause).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await expect(pause).toHaveCSS("border-top-width", "0px");
+    await expect(pause).toHaveCSS("box-shadow", "none");
+    let height: number | undefined;
+    for (let index = 0; index < 4; index++) {
+      await page.locator(".hero-indicators button").nth(index).click();
+      const metrics = await page.locator('.hero-slide[data-active="true"]').evaluate(slide => {
+        const rect = (selector: string) => slide.querySelector(selector)!.getBoundingClientRect();
+        const description = rect(".hero-description"), cta = rect(".hero-cta");
+        const pause = document.querySelector(".hero-pause")!.getBoundingClientRect();
+        const carousel = document.querySelector(".hero-carousel")!.getBoundingClientRect();
+        return { descriptionGap: cta.top - description.bottom, pauseGap: pause.top - cta.bottom,
+          width: pause.width, height: pause.height, right: carousel.right - pause.right,
+          carouselHeight: carousel.height };
+      });
+      expect(metrics.descriptionGap).toBeGreaterThanOrEqual(24);
+      expect(metrics.pauseGap).toBeGreaterThanOrEqual(24);
+      expect(metrics.width).toBe(44);
+      expect(metrics.height).toBe(44);
+      expect(metrics.right).toBe(16);
+      height ??= metrics.carouselHeight;
+      expect(metrics.carouselHeight).toBe(height);
+      await expect(page.locator('.hero-slide[data-active="true"] h2')).toHaveCSS("font-size", "28px");
+    }
   }
 });
