@@ -35,6 +35,14 @@ export const siteConfig = {
   mapsUrl:
     "https://yandex.ru/maps/-/CXuIVX1D",
 
+  // Подтверждённые заказчиком данные; обновляются вручную.
+  yandexRating: {
+    value: 4.8,
+    maxValue: 5,
+    ratingCount: 78,
+    url: "https://yandex.ru/maps/org/velkar/1292103816/?ll=37.839843%2C57.236642&z=17",
+  },
+
   workingHours: [
     {
       days: "Пн–Пт",
