@@ -176,6 +176,11 @@ body {
   .hero-slide[data-product="batteries"] .hero-description { margin-top: 0; }
 
   .hero-controls { display: grid; grid-template-columns: minmax(44px, 1fr) auto minmax(44px, 1fr); }
+  .hero-arrows button { border: 0; background: transparent; box-shadow: none; }
+  .hero-arrows button:hover { background: transparent; }
+  .hero-arrows button:active { background: #d9edf9; color: var(--brand-navy); }
+  .hero-controls button:focus-visible { outline: 3px solid var(--brand-navy); outline-offset: -3px; }
+  .hero-indicators button { background: transparent; }
   .hero-arrows button:first-child { grid-area: 1 / 1; justify-self: start; }
   .hero-indicators { grid-area: 1 / 2; }
   .hero-arrows button:last-child { grid-area: 1 / 3; justify-self: end; }

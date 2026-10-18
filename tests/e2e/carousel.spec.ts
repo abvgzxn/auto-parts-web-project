@@ -443,3 +443,48 @@ test("controls: безопасные области, Tab, размеры и сн
     }
   }
 });
+
+test("мобильные ghost controls: центрирование и непересекающиеся области нажатия", async ({ page }) => {
+  await page.goto("/");
+  await page.locator(".hero-pause").focus();
+  for (const width of [320, 375, 390, 430]) {
+    await page.setViewportSize({ width, height: 900 });
+    const geometry = await page.locator(".hero-controls").evaluate(panel => {
+      const rect = (el: Element) => {
+        const r = el.getBoundingClientRect();
+        return { x: r.x, y: r.y, width: r.width, height: r.height };
+      };
+      return {
+        panel: rect(panel),
+        indicators: rect(panel.querySelector(".hero-indicators")!),
+        buttons: [...panel.querySelectorAll("button")].map(rect),
+      };
+    });
+    expect(geometry.buttons).toHaveLength(6);
+    expect(geometry.indicators.x + geometry.indicators.width / 2).toBeCloseTo(width / 2, 1);
+    expect(geometry.panel.height).toBe(52);
+    for (const [index, box] of geometry.buttons.entries()) {
+      expect(box.width).toBeGreaterThanOrEqual(44);
+      expect(box.height).toBeGreaterThanOrEqual(44);
+      for (const other of geometry.buttons.slice(index + 1)) {
+        expect(box.x < other.x + other.width && other.x < box.x + box.width
+          && box.y < other.y + other.height && other.y < box.y + box.height).toBe(false);
+      }
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
+    const previous = page.getByRole("button", { name: "Предыдущий слайд" });
+    await expect(previous).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    await expect(previous).toHaveCSS("box-shadow", "none");
+    await previous.focus();
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Shift+Tab");
+    await expect(previous).toBeFocused();
+    await expect(previous).toHaveCSS("outline-style", "solid");
+    await expect(previous).toHaveCSS("outline-width", "3px");
+    const box = (await previous.boundingBox())!;
+    await page.mouse.move(box.x + 22, box.y + 22);
+    await page.mouse.down();
+    await expect(previous).toHaveCSS("background-color", "rgb(217, 237, 249)");
+    await page.mouse.up();
+  }
+});
