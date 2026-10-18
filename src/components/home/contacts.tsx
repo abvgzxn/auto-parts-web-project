@@ -4,93 +4,77 @@ import StoreMap from "@/components/store-map";
 
 export default function Contacts() {
   return (
-    <section
-      id="contacts"
-      aria-labelledby="contacts-title"
-    >
+    <section id="contacts" aria-labelledby="contacts-title">
       <h2
         id="contacts-title"
-        className="text-3xl font-bold text-brand-navy md:text-4xl"
+        className="text-3xl leading-tight font-bold tracking-tight text-brand-navy md:text-4xl"
       >
         Контакты Wellcar
       </h2>
-
-      <p className="mt-4 text-muted">
-        Ждём вас в нашем магазине в Калязине.
-        Также вы можете связаться с нами по телефону
-        или через MAX.
+      <p className="mt-4 max-w-xl leading-7 text-muted">
+        Ждём вас в нашем магазине в Калязине. Также вы можете связаться
+        с нами по телефону или через MAX.
       </p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="rounded-2xl border border-border bg-surface p-6 md:p-8">
-          <h3 className="text-xl font-semibold text-brand-navy">
-            Адрес
+        <div className="flex min-w-0 flex-col rounded-xl border border-border bg-surface p-5 md:p-8">
+          <h3 className="text-2xl font-semibold tracking-tight text-brand-navy">
+            Адрес и режим работы
           </h3>
-
-          <p className="mt-3 text-muted">
+          <address className="mt-5 max-w-md text-lg leading-7 text-foreground not-italic">
             {siteConfig.address.full}
-          </p>
-
+          </address>
           <a
             href={siteConfig.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand-navy hover:underline"
+            className="mt-3 inline-flex min-h-11 items-center self-start rounded-sm py-2 font-semibold text-brand-navy underline underline-offset-4 hover:decoration-2"
           >
             Открыть в Яндекс Картах
           </a>
-
-          <h3 className="mt-8 text-xl font-semibold text-brand-navy">
-            Режим работы
-          </h3>
-
-          <dl className="mt-4 space-y-3">
-            {siteConfig.workingHours.map((item) => (
-              <div
-                key={item.days}
-                className="flex justify-between gap-4"
-              >
-                <dt className="text-muted">{item.days}</dt>
-                <dd className="font-medium text-brand-navy">
-                  {item.hours}
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <div className="mt-6 border-t border-border pt-6">
+            <h4 className="font-semibold text-brand-navy">Режим работы</h4>
+            <dl className="mt-3 space-y-3">
+              {siteConfig.workingHours.map((item) => (
+                <div key={item.days} className="flex flex-wrap justify-between gap-x-4 gap-y-1">
+                  <dt className="text-muted">{item.days}</dt>
+                  <dd className="font-semibold text-brand-navy tabular-nums">{item.hours}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
 
-        <div className="rounded-2xl border border-border bg-surface p-6 md:p-8">
-          <h3 className="text-xl font-semibold text-brand-navy">
+        <div className="flex min-w-0 flex-col rounded-xl border border-border bg-surface p-5 md:p-8">
+          <h3 className="text-2xl font-semibold tracking-tight text-brand-navy">
             Связаться с нами
           </h3>
-
-          <div className="mt-5 flex flex-col items-start gap-3">
+          <div className="mt-4 flex flex-col items-start gap-1">
             {siteConfig.phones.map((phone) => (
               <a
                 key={phone.href}
                 href={phone.href}
-                className="inline-flex min-h-11 items-center text-lg font-semibold text-brand-navy hover:underline"
+                className="inline-flex min-h-12 items-center rounded-sm py-2 text-xl font-semibold text-brand-navy underline-offset-4 hover:underline"
               >
                 {phone.label}
               </a>
             ))}
-
             <a
               href={`mailto:${siteConfig.email}`}
-              className="inline-flex min-h-11 items-center text-brand-navy hover:underline"
+              className="inline-flex min-h-11 items-center rounded-sm py-2 text-brand-navy underline underline-offset-4 hover:decoration-2"
             >
               {siteConfig.email}
             </a>
           </div>
-
-          <MaxLink
-            text="Написать в MAX"
-            className="mt-8 inline-flex min-h-12 items-center justify-center rounded-lg bg-brand-cyan px-6 py-3 font-semibold text-foreground transition-colors hover:bg-brand-light-blue"
-          />
+          <div className="mt-6 border-t border-border pt-6">
+            <MaxLink
+              text="Написать в MAX"
+              className="min-h-12 w-full justify-center rounded-lg bg-brand-navy px-4 py-3 font-semibold text-white hover:bg-[#003653] focus-visible:outline-brand-navy sm:w-auto"
+            />
+          </div>
         </div>
       </div>
-
-      <div className="mt-8">
+      <div className="mt-6">
         <StoreMap />
       </div>
     </section>
