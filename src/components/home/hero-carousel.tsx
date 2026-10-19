@@ -6,7 +6,6 @@ import MaxLink from "@/components/ui/max-link";
 import { heroSlides } from "@/lib/hero-slides";
 import type { HeroSlide } from "@/types/hero-slide";
 
-// One picture lets the browser choose a composition before requesting an image.
 function HeroSlideImage({ slide, first }: { slide: HeroSlide; first: boolean }) {
   const common = {
     alt: slide.imageAlt,
@@ -19,7 +18,7 @@ function HeroSlideImage({ slide, first }: { slide: HeroSlide; first: boolean }) 
     sizes: "(min-width: 1280px) 810px, (min-width: 1024px) calc((100vw - 66px) * 2 / 3), calc(100vw - 290px)",
   });
   const { props: mobile } = getImageProps({
-    ...common, src: slide.mobileImageSrc,
+    ...common, quality: 75, src: slide.mobileImageSrc,
     width: slide.mobileImageWidth, height: slide.mobileImageHeight,
     sizes: slide.id === "batteries" ? "(min-width: 480px) 240px, calc(100vw - 66px)" : "calc(100vw - 66px)",
   });
@@ -57,7 +56,6 @@ export default function HeroCarousel() {
     setActiveIndex(index);
   };
 
-  // Pointer focus happens before click; keep the action the user initially pressed.
   const pointerStopped = useRef<boolean | null>(null);
   const togglePause = () => {
     const wasStopped = pointerStopped.current ?? isRotationStopped;
