@@ -37,6 +37,12 @@ jobs:
       - name: TypeScript
         run: npx tsc --noEmit
 
+      - name: Check deploy script syntax
+        run: bash -n scripts/server/deploy.sh
+
+      - name: Test deploy script
+        run: python3 scripts/server/test_deploy.py
+
       - name: Production build
         run: npm run build
 
