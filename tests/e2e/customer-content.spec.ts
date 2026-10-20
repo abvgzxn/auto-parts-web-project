@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { heroSlides } from "../../src/lib/hero-slides";
 
  test("бренд, метаданные и отдельное расписание выходных", async ({ page }) => {
   await page.goto("/");
@@ -37,11 +38,12 @@ import { expect, test } from "@playwright/test";
     await page.goto("/");
     const carousel = page.locator(".hero-carousel");
     await expect(carousel).not.toContainText(/Незамерзающая жидкость|Чистое стекло даже в сильный мороз/i);
-    for (const [index, id] of ["batteries", "wiper-blades", "bulk-motor-oil", "winter-fluid"].entries()) {
+    const unexpectedSources = heroSlides.map(slide => width >= 768 ? slide.mobileImageSrc : slide.imageSrc);
+    for (const [index, { id, imageSrc, mobileImageSrc }] of heroSlides.entries()) {
       await carousel.locator(".hero-indicators button").nth(index).click();
       const photo = carousel.locator(".hero-product");
-      const expected = `${id}-${width >= 768 ? "banner" : "mobile"}.webp`;
-      await expect.poll(() => photo.evaluate(el => decodeURIComponent((el as HTMLImageElement).currentSrc))).toContain(expected);
+      const expected = width >= 768 ? imageSrc : mobileImageSrc;
+      await expect.poll(() => photo.evaluate(el => new URL((el as HTMLImageElement).currentSrc, location.href).searchParams.get("url"))).toBe(expected);
       await expect.poll(() => photo.evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
       await expect(photo).toHaveCSS("object-fit", "contain");
       if (width < 768) {
@@ -65,7 +67,7 @@ import { expect, test } from "@playwright/test";
         for (const line of lines) expect(line.length, `${width}px ${id}: ${lines.join(" / ")}`).toBeGreaterThan(1);
       }
       expect(requests.some(url => url.includes(expected))).toBe(true);
-      expect(requests.some(url => url.includes(width >= 768 ? "-mobile.webp" : "-banner.webp"))).toBe(false);
+      expect(requests.filter(url => unexpectedSources.some(source => url.includes(source)))).toEqual([]);
       expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
       if (id === "winter-fluid") {
         await expect(carousel.getByRole("heading")).toHaveText("Реагент низкозамерзающий");

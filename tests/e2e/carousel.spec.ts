@@ -212,7 +212,7 @@ test("Hero: размеры, клавиатура и стабильная выс�
       await expect(photo).toHaveAccessibleName(/.+/);
       await expect.poll(() => photo.evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
       expect(await photo.evaluate(el => getComputedStyle(el).objectFit)).toBe("contain");
-      await expect.poll(() => photo.evaluate(el => decodeURIComponent((el as HTMLImageElement).currentSrc))).toContain(`${sources[index]}-${width >= 768 ? "banner" : "mobile"}.webp`);
+      await expect.poll(() => photo.evaluate(el => decodeURIComponent((el as HTMLImageElement).currentSrc))).toContain(`${sources[index]}-${width >= 768 ? "banner" : "mobile"}${(width < 768 && index === 0) || (width >= 768 && index === 3) ? "-v2" : ""}.webp`);
       const visual = carousel.locator('.hero-slide[data-active="true"] .hero-visual');
       const visualBox = await visual.boundingBox();
       const copyBox = await carousel.locator('.hero-slide[data-active="true"] .hero-details').boundingBox();
@@ -353,7 +353,7 @@ test("art direction: загружается только подходящий п
     await page.goto("/");
     const photo = page.locator(".hero-product");
     await expect.poll(() => photo.evaluate(el => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0)).toBe(true);
-    const composition = width >= 768 ? "banner" : "mobile";
+    const composition = width >= 768 ? "banner" : "mobile-v2";
     await expect.poll(() => photo.evaluate(el => decodeURIComponent((el as HTMLImageElement).currentSrc))).toContain(`batteries-${composition}.webp`);
     expect(requested.length).toBeGreaterThan(0);
     expect(requested, `width=${width}`).toEqual(expect.arrayContaining([expect.stringContaining(`batteries-${composition}.webp`)]));
@@ -525,5 +525,24 @@ test("мобильный Hero: иерархия, интервалы и лёгк�
       expect(metrics.carouselHeight).toBe(height);
       await expect(page.locator('.hero-slide[data-active="true"] h2')).toHaveCSS("font-size", width < 360 && index === 3 ? "26px" : "28px");
     }
+  }
+});
+
+test("утверждённые баннеры: currentSrc всех слайдов на mobile и desktop", async ({ browser }) => {
+  const desktop = ["batteries-banner.webp", "wiper-blades-banner.webp", "bulk-motor-oil-banner.webp", "winter-fluid-banner-v2.webp"];
+  const mobile = ["batteries-mobile-v2.webp", "wiper-blades-mobile.webp", "bulk-motor-oil-mobile.webp", "winter-fluid-mobile.webp"];
+  for (const width of [320, 390, 768, 1440]) {
+    const page = await browser.newPage({ viewport: { width, height: 1000 }, reducedMotion: "reduce" });
+    await page.goto("/");
+    for (let index = 0; index < 4; index++) {
+      await page.locator(".hero-indicators button").nth(index).click();
+      const photo = page.locator(".hero-product");
+      await photo.evaluate(el => (el as HTMLImageElement).decode());
+      const selected = await photo.evaluate(el => new URL((el as HTMLImageElement).currentSrc).searchParams.get("url"));
+      expect(selected).toBe(`/images/hero/${(width < 768 ? mobile : desktop)[index]}`);
+      await expect(photo).toHaveCSS("object-fit", "contain");
+      expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+    }
+    await page.close();
   }
 });
