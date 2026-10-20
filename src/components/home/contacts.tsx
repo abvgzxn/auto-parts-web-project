@@ -9,7 +9,7 @@ export default function Contacts() {
         id="contacts-title"
         className="text-3xl leading-tight font-bold tracking-tight text-brand-navy md:text-4xl"
       >
-        Контакты Wellcar
+        Контакты ВЕЛКАР
       </h2>
       <p className="mt-4 max-w-xl leading-7 text-muted">
         Ждём вас в нашем магазине в Калязине. Также вы можете связаться

@@ -15,18 +15,18 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("главная страница и основные секции", async ({ page }) => {
-  await expect(page).toHaveTitle(/Wellcar/);
+  await expect(page).toHaveTitle(/ВЕЛКАР/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Автозапчасти и моторные масла в наличии и на заказ",
   );
   for (const [id, title] of [
     ["benefits-title", "Хорошие запчасти для хорошего авто"],
-    ["categories-title", "Ассортимент Wellcar"],
+    ["categories-title", "Ассортимент ВЕЛКАР"],
     ["oils-title", "Большой ассортимент моторных масел в наличии"],
     ["selection-title", "Поможем подобрать нужную запчасть"],
-    ["about-title", "Магазин автозапчастей Wellcar в Калязине"],
-    ["contacts-title", "Контакты Wellcar"],
+    ["about-title", "Магазин автозапчастей ВЕЛКАР в Калязине"],
+    ["contacts-title", "Контакты ВЕЛКАР"],
   ]) {
     await expect(page.getByRole("region", { name: title, exact: true })).toBeVisible();
     await expect(page.locator(`#${id}`)).toHaveText(title);
@@ -162,7 +162,7 @@ test("шапка на всех контрольных ширинах", async ({ 
     const desktop = width >= 1280;
     await expect(header.getByRole("navigation", { name: "Основная навигация", exact: true })).toBeVisible({ visible: desktop });
     await expect(summary).toBeVisible({ visible: !desktop });
-    await expect(header.getByRole("link", { name: /Позвонить в Wellcar/ })).toHaveAttribute("href", siteConfig.phones[0].href);
+    await expect(header.getByRole("link", { name: /Позвонить в ВЕЛКАР/ })).toHaveAttribute("href", siteConfig.phones[0].href);
     const max = header.getByRole("link", { name: desktop ? "Написать в MAX" : "MAX", exact: true });
     await expect(max).toBeVisible();
     await expect(max.locator('img[src="/images/logo/max.svg"]')).toBeVisible();
@@ -300,7 +300,7 @@ test("Яндекс Карта загружается только по нажа�
 
   await expect(map).toHaveAttribute(
     "title",
-    /Магазин Wellcar:/,
+    /Магазин ВЕЛКАР:/,
   );
 });
 

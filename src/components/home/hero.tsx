@@ -8,7 +8,7 @@ export default function Hero() {
       </h1>
       <HeroCarousel />
       <div className="hero-store-links">
-        <span>Wellcar — магазин автозапчастей в Калязине</span>
+        <span>ВЕЛКАР — магазин автозапчастей в Калязине</span>
         <a href="#contacts">Телефоны магазина</a>
       </div>
     </section>

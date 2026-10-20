@@ -10,7 +10,7 @@ export default function AboutStore() {
     >
       <Image
         src="/images/store/storefront.webp"
-        alt="Фасад магазина Wellcar: вывеска «Велкар Автозапчасти» и вход"
+        alt="Фасад магазина ВЕЛКАР: вывеска «ВЕЛКАР Автозапчасти» и вход"
         width={1280}
         height={960}
         sizes="(min-width: 1280px) 584px, (min-width: 1024px) calc((100vw - 112px) / 2), (min-width: 768px) calc((100vw - 80px) / 2), calc(100vw - 32px)"
@@ -23,7 +23,7 @@ export default function AboutStore() {
           id="about-title"
           className="max-w-xl text-3xl leading-tight font-bold tracking-tight text-brand-navy lg:text-4xl"
         >
-          Магазин автозапчастей Wellcar в Калязине
+          Магазин автозапчастей ВЕЛКАР в Калязине
         </h2>
 
         <p className="mt-4 max-w-xl text-base leading-7 text-foreground lg:mt-5 lg:text-lg">

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import HeroCarousel from "@/components/home/hero-carousel";
 
 export const metadata: Metadata = {
-  title: "Предпросмотр карусели — Wellcar",
+  title: "Предпросмотр карусели — ВЕЛКАР",
   robots: {
     index: false,
     follow: false,

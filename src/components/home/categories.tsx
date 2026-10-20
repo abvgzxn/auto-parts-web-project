@@ -55,7 +55,7 @@ export default function Categories() {
         id="categories-title"
         className="text-3xl font-bold text-brand-navy"
       >
-        Ассортимент Wellcar
+        Ассортимент ВЕЛКАР
       </h2>
 
       <p className="mt-4 max-w-2xl text-muted">

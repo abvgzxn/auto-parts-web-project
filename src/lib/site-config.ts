@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Wellcar",
+  name: "ВЕЛКАР",
   url: "https://well-car.ru/",
   city: "Калязин",
 
@@ -52,11 +52,18 @@ export const siteConfig = {
       closes: "19:00",
     },
     {
-      days: "Сб–Вс",
+      days: "Сб",
       hours: "09:00–17:00",
-      schemaDays: ["Saturday", "Sunday"],
+      schemaDays: ["Saturday"],
       opens: "09:00",
       closes: "17:00",
+    },
+    {
+      days: "Вс",
+      hours: "09:00–15:00",
+      schemaDays: ["Sunday"],
+      opens: "09:00",
+      closes: "15:00",
     },
   ],
 } as const;

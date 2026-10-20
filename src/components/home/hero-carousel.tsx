@@ -20,7 +20,7 @@ function HeroSlideImage({ slide, first }: { slide: HeroSlide; first: boolean }) 
   const { props: mobile } = getImageProps({
     ...common, quality: 75, src: slide.mobileImageSrc,
     width: slide.mobileImageWidth, height: slide.mobileImageHeight,
-    sizes: slide.id === "batteries" ? "(min-width: 480px) 240px, calc(100vw - 66px)" : "calc(100vw - 66px)",
+    sizes: "calc(100vw - 66px)",
   });
   return (
     <picture>

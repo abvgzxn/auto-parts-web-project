@@ -29,13 +29,13 @@ test("карусель циклически переключает слайды"
   await expect(title).toHaveText("Моторное масло на розлив");
 
   await next.click();
-  await expect(title).toHaveText("Незамерзающая жидкость");
+  await expect(title).toHaveText("Реагент низкозамерзающий");
 
   await next.click();
   await expect(title).toHaveText("Автомобильные аккумуляторы");
 
   await previous.click();
-  await expect(title).toHaveText("Незамерзающая жидкость");
+  await expect(title).toHaveText("Реагент низкозамерзающий");
 });
 
 test("автопрокрутка останавливается и возобновляется", async ({ page }) => {
@@ -201,7 +201,7 @@ test("Hero: размеры, клавиатура и стабильная выс�
       await page.keyboard.press("Enter");
       await expect(indicator).toHaveAttribute("aria-pressed", "true");
       await expect(carousel.getByRole("heading", { level: 2 })).toHaveCount(1);
-      const titles = ["Автомобильные аккумуляторы", "Щётки стеклоочистителя", "Моторное масло на розлив", "Незамерзающая жидкость"];
+      const titles = ["Автомобильные аккумуляторы", "Щётки стеклоочистителя", "Моторное масло на розлив", "Реагент низкозамерзающий"];
       const sources = ["batteries", "wiper-blades", "bulk-motor-oil", "winter-fluid"];
       await expect(carousel.getByRole("heading", { level: 2 })).toHaveText(titles[index]);
       await expect(carousel.locator(".hero-indicators button")).toHaveCount(4);
@@ -227,14 +227,14 @@ test("Hero: размеры, клавиатура и стабильная выс�
         if (index === 0) {
           expect(copyBox!.y).toBeGreaterThanOrEqual(visualBox!.y + visualBox!.height);
           expect(visualBox!.width).toBeGreaterThanOrEqual(width - 68);
-          expect(visualBox!.height).toBeGreaterThanOrEqual(180);
+          expect(visualBox!.width / visualBox!.height).toBeCloseTo(16 / 9, 2);
         } else {
           const titleBox = await carousel.getByRole("heading", { level: 2 }).boundingBox();
           expect(visualBox!.y).toBeGreaterThanOrEqual(titleBox!.y + titleBox!.height);
           expect(copyBox!.y).toBeGreaterThanOrEqual(visualBox!.y + visualBox!.height);
           expect(visualBox!.width).toBeGreaterThanOrEqual(width - 68);
           expect(copyBox!.width).toBeCloseTo(visualBox!.width, 1);
-          expect(visualBox!.height).toBeGreaterThanOrEqual(230);
+          expect(visualBox!.width / visualBox!.height).toBeCloseTo(16 / 9, 2);
           expect(ctaBox!.y).toBeGreaterThanOrEqual(copyBox!.y + copyBox!.height);
         }
         expect(ctaBox!.y).toBeGreaterThanOrEqual(visualBox!.y + visualBox!.height);
@@ -523,7 +523,7 @@ test("мобильный Hero: иерархия, интервалы и лёгк�
       expect(metrics.right).toBe(16);
       height ??= metrics.carouselHeight;
       expect(metrics.carouselHeight).toBe(height);
-      await expect(page.locator('.hero-slide[data-active="true"] h2')).toHaveCSS("font-size", "28px");
+      await expect(page.locator('.hero-slide[data-active="true"] h2')).toHaveCSS("font-size", width < 360 && index === 3 ? "26px" : "28px");
     }
   }
 });

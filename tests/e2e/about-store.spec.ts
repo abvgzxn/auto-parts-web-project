@@ -3,7 +3,7 @@ import { siteConfig } from "../../src/lib/site-config";
 
 test("магазин: адаптивность, целое фото и доступный маршрут", async ({ page }) => {
   await page.goto("/");
-  const section = page.getByRole("region", { name: "Магазин автозапчастей Wellcar в Калязине", exact: true });
+  const section = page.getByRole("region", { name: "Магазин автозапчастей ВЕЛКАР в Калязине", exact: true });
   const photo = section.getByRole("img");
   const route = section.getByRole("link", { name: "Построить маршрут", exact: true });
   await expect(section.locator("address")).toHaveText(`г. ${siteConfig.address.short}.`);
