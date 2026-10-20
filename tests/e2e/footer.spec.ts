@@ -15,10 +15,10 @@ test("футер: подтверждённый рейтинг, контакты,
   await expect(rating.locator('[aria-hidden="true"]').filter({ hasText: "★★★★★" })).toHaveCount(1);
   const reviews = rating.getByRole("link", { name: "Читать отзывы на Яндекс Картах", exact: true });
   await expect(reviews).toHaveAttribute("href", "https://yandex.ru/maps/org/velkar/1292103816/?ll=37.839843%2C57.236642&z=17");
-  await expect(footer.getByRole("link", { name: "Wellcar", exact: true })).toHaveAttribute("href", "/");
+  await expect(footer.getByRole("link", { name: "ВЕЛКАР", exact: true })).toHaveAttribute("href", "/");
   await expect(footer).toContainText(siteConfig.address.full);
   await expect(footer).toContainText("Автозапчасти и моторные масла в наличии и на заказ. Подбор запчастей по VIN.");
-  await expect(footer).toContainText(`© ${new Date().getFullYear()} Wellcar. Все права защищены.`);
+  await expect(footer).toContainText(`© ${new Date().getFullYear()} ВЕЛКАР. Все права защищены.`);
   for (const { days, hours } of siteConfig.workingHours) {
     await expect(footer).toContainText(days);
     await expect(footer).toContainText(hours);

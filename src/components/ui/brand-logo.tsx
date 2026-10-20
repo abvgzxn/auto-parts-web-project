@@ -12,7 +12,7 @@ export default function BrandLogo({
   return (
     <Image
       src="/images/logo/wellcar-logo.png"
-      alt="Wellcar — магазин автозапчастей"
+      alt="ВЕЛКАР — магазин автозапчастей"
       width={width}
       height={height}
       className="h-auto object-contain"

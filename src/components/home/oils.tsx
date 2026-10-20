@@ -39,7 +39,7 @@ export default function Oils() {
       <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
         <div className="min-w-0 lg:col-start-2 lg:row-start-1">
           <p className="text-sm font-semibold text-white/85">
-            Ассортимент Wellcar
+            Ассортимент ВЕЛКАР
           </p>
 
           <h2
@@ -64,7 +64,7 @@ export default function Oils() {
 
         <Image
           src="/images/store/motor-oils.webp"
-          alt="Канистры моторных масел разных марок на полках магазина Wellcar"
+          alt="Канистры моторных масел разных марок на полках магазина ВЕЛКАР"
           width={1280}
           height={960}
           sizes="(min-width: 1280px) 548px, (min-width: 1024px) calc((100vw - 184px) / 2), (min-width: 768px) calc(100vw - 128px), calc(100vw - 64px)"
